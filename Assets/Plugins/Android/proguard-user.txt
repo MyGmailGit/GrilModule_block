@@ -1,2 +1,1 @@
 -keep class com.my.helper.AndroidUtil { *; }
--keep class com.renderheads.AVPro.Video.** { *; }

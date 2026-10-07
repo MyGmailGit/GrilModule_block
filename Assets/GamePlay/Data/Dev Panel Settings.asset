@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d082f86e8bd67c04793bd8fecf7cfe0e, type: 3}
   m_Name: Dev Panel Settings
   m_EditorClassIdentifier: 
-  isEnabled: 0
-  isForceToVideo: 0
+  isEnabled: 1
+  isForceToVideo: 1
