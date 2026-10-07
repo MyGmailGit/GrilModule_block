@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8634c5cf5896bb84ca6474552cf85648, type: 3}
+  m_Name: Audio Clips
+  m_EditorClassIdentifier: 
+  buttonSound: {fileID: 8300000, guid: 43778771ca132fe44baa768ab4be8bc2, type: 3}
+  blockPick: {fileID: 8300000, guid: 929c74d918430ef4bbf6138e8b064f5b, type: 3}
+  blockDestroy: {fileID: 8300000, guid: 185673f069b168a4fbac5a9ef6500192, type: 3}
+  win: {fileID: 8300000, guid: a786db5f337f4b95b5ad8e5ce187975a, type: 3}
+  completePopup: {fileID: 8300000, guid: a786db5f337f4b95b5ad8e5ce187975a, type: 3}
+  lose: {fileID: 8300000, guid: 56ebeec80cf6b9d4496a6600a3393543, type: 3}
+  revive: {fileID: 8300000, guid: becad5c5bf976414398c0aaf76040e35, type: 3}
+  actionDone: {fileID: 8300000, guid: bcc2c83cac620314d99e42369fe49e31, type: 3}
+  bottleClose: {fileID: 8300000, guid: 52bea514e9f684f33844d794248ff123, type: 3}
+  finish: {fileID: 8300000, guid: 458703ba8d5ba46ff96b3b04041b2662, type: 3}
+  particle1: {fileID: 8300000, guid: 454561d94abbe4f8ea049b6c7fed42ba, type: 3}
+  particle2: {fileID: 8300000, guid: a4fd77dd305b642c0a8a50c51731178c, type: 3}
+  spark01: {fileID: 8300000, guid: dbbf3c6cd60b44a948e70049a922368e, type: 3}
+  Fly: {fileID: 8300000, guid: 79046d7d9299942e4bff316c8e1a5c81, type: 3}
+  alert: {fileID: 8300000, guid: 7be581dc4313a4728bde863aa1c003e3, type: 3}
+  appear: {fileID: 8300000, guid: 35f3f138746cc4224805ae0250d341c6, type: 3}
+  slide: {fileID: 8300000, guid: f6a807aa17e8e4085b695825ad38242c, type: 3}
+  ballDrop: {fileID: 8300000, guid: 5bdeb240be6d84aca9aab8cfe72ee4e2, type: 3}
+  startLevelLabel: {fileID: 8300000, guid: 1f3808afde9de40f282cc66577f200d0, type: 3}
+  girls:
+  - {fileID: 8300000, guid: b8573fc8b516a408abe84d244636376b, type: 3}

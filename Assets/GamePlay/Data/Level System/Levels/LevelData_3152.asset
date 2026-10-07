@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecf9f3db3da18674d9f8a02b35802f97, type: 3}
+  m_Name: LevelData_3152
+  m_EditorClassIdentifier: 
+  levelID: 3152
+  tubeCount: 14
+  puzzleConfig: C00BTmoeUxBeIwVNDE4ATQQCI1UdXhBuTwhJC08JSQNuHlBdEGpPBkkDAU0EACNXHV0QbU8ABU4ATQFOax5XEF1vTwZJCk8ABE5sHlAQVCMATQxOAgFJAyNUHV1eIwRNBANPAAdOax5UEFo=
+  isHideLiquid: 0
+  emptyTubeCount: 2
+  difficulty: 3

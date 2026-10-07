@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b799c17a54eef0e4baa1be9eda7b82da, type: 3}
+  m_Name: RewardsDay7
+  m_EditorClassIdentifier: 
+  rewards:
+  - rid: 4824761799096401920
+  notes: 
+  references:
+    version: 2
+    RefIds:
+    - rid: 4824761799096401920
+      type: {class: CardReward, ns: Watermelon, asm: Assembly-CSharp}
+      data:
+        previewSprite: {fileID: 21300000, guid: 51dd7e161e7f4b1582fbeef0e7894bcd,
+          type: 3}
+        getNum: 1

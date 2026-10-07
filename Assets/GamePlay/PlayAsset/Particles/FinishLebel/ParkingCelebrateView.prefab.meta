@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: d0112f3c1d9e7b446bb6ecda3113a46e
+timeCreated: 1779445387
+licenseType: Free
+PrefabImporter:
+  externalObjects: {}
+  addedObjectFileIDs:
+  isPrefabVariant: 0
+  variantParentGUID: 00000000000000000000000000000000
+  userData:
+  assetBundleName: game_start.ab
+  assetBundleVariant:

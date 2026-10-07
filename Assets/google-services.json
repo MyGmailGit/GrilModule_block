@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "23753343320",
+    "project_id": "ball-sort-1",
+    "storage_bucket": "ball-sort-1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:23753343320:android:5b9be32e2cb87fd23fa52d",
+        "android_client_info": {
+          "package_name": "com.fun.color.ball.sort.puzzle"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCONCgq63Sq_JqjUdr1uKdmbAy6c5tUu6s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

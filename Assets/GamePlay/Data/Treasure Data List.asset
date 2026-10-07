@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a451b080a13b547ce9a3869fce2369dd, type: 3}
+  m_Name: Treasure Data List
+  m_EditorClassIdentifier: 
+  levelRefresh: 25
+  treasureDataList:
+  - {fileID: 11400000, guid: 06c7e621e579144f69f00ee936a7119c, type: 2}
+  - {fileID: 11400000, guid: 7d4bb8c30119842679b104cebc67e33c, type: 2}
+  - {fileID: 11400000, guid: 80e7e052e43f544a78885cfd8134d0f4, type: 2}
+  - {fileID: 11400000, guid: 4f50bb368bfad431e982c9736c564399, type: 2}
+  - {fileID: 11400000, guid: 057f0288a234c4d8dbfdf584b517063c, type: 2}
+  - {fileID: 11400000, guid: ce902a86a2c2c4b9e9fce5b55fae8d6c, type: 2}
+  - {fileID: 11400000, guid: 796f5f6dbf32249098626bf1a9a15cde, type: 2}
+  - {fileID: 11400000, guid: bee7dfecac654467fa039179a182bfbd, type: 2}
+  - {fileID: 11400000, guid: c9539a3f23de048899df055ed17246ac, type: 2}
+  - {fileID: 11400000, guid: 0201666e3c6e647e88bebd63b2eb71b8, type: 2}
+  - {fileID: 11400000, guid: 2cb4b6d1648774f9c9868b2361a4fac6, type: 2}
+  - {fileID: 11400000, guid: ab93bb0c69d584443b9922d35be62bb9, type: 2}

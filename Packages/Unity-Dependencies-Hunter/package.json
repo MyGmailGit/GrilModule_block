@@ -1,0 +1,16 @@
+{
+  "name": "dependencies-hunter",
+  "version": "1.3.0",
+  "displayName": "Dependencies Hunter",
+  "description": "Assets references analysis",
+  "unity": "2022.3",
+  "keywords": [
+    "references",
+    "assets",
+    "tool"
+  ],
+  "author": {
+    "name": "AlexeyPerov",
+    "url": "https://github.com/AlexeyPerov/Unity-Dependencies-Hunter"
+  }
+}

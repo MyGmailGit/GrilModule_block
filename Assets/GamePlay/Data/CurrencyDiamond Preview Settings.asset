@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a62fdf0937cf714d92ee43548954c48, type: 3}
+  m_Name: CurrencyDiamond Preview Settings
+  m_EditorClassIdentifier: 
+  previewSprite: {fileID: 21300000, guid: 98ccd2ba09c5840979077e573c9ece49, type: 3}
+  overrides:
+  - maxAmount: 100
+    sprite: {fileID: 21300000, guid: 4246030ed48974f7aa298739f6a871e2, type: 3}
+  - maxAmount: 550
+    sprite: {fileID: 21300000, guid: 71da2d7c1ef224a1fb39c1bd83b1420c, type: 3}
+  - maxAmount: 1200
+    sprite: {fileID: 21300000, guid: d48351fd590e0427f87e967562af3972, type: 3}
+  - maxAmount: 2800
+    sprite: {fileID: 21300000, guid: 7fbb72f1c44524c14b054416cbffefe8, type: 3}
+  - maxAmount: 7500
+    sprite: {fileID: 21300000, guid: f6d96e34295cf43e5aa6299275c1c1ee, type: 3}
+  - maxAmount: 16000
+    sprite: {fileID: 21300000, guid: 5ac660c38f07b4be5acea8662a850604, type: 3}

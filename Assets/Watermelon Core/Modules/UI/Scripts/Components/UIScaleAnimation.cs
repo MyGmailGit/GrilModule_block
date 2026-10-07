@@ -1,0 +1,85 @@
+using UnityEngine;
+using DG.Tweening;
+
+namespace Watermelon
+{
+    [System.Serializable]
+    public class UIScaleAnimation
+    {
+        [SerializeField] Transform transform;
+        public Transform Transform => transform;
+
+        private Tween scaleTweenCase;
+
+        public UIScaleAnimation(Transform transform)
+        {
+            this.transform = transform;
+        }
+
+        public UIScaleAnimation(GameObject gameObject) : this(gameObject.transform) { }
+        public UIScaleAnimation(Component component) : this(component.transform) { }
+
+        public void Show(float scaleMultiplier = 1.1f, float duration = 0.5f, float delay = 0f, bool immediately = false, SimpleCallback onCompleted = null)
+        {
+            if (transform == null)
+            {
+                Debug.LogError("Transform value cannot be null. Please ensure it is assigned in the Inspector or passed through the constructor.");
+
+                onCompleted?.Invoke();
+
+                return;
+            }
+
+            scaleTweenCase.Kill();
+
+            if (immediately)
+            {
+                transform.localScale = Vector3.one;
+
+                onCompleted?.Invoke();
+
+                return;
+            }
+
+            // RESET
+            transform.localScale = Vector3.zero;
+            // scaleTweenCase = transform.DOScale(Vector3.one * scaleMultiplier, Vector3.one, duration * 0.64f, duration * 0.36f, Ease.OutCubic, Ease.InCubic, delay).OnComplete(() =>
+            scaleTweenCase = transform.DOScale(Vector3.one * scaleMultiplier, duration * 0.64f).SetEase(Ease.OutCubic).SetDelay(delay).OnComplete(() =>
+            {
+                onCompleted?.Invoke();
+            });
+        }
+
+        public void Hide(float scaleMultiplier = 1.1f, float duration = 0.5f, float delay = 0f, bool immediately = false, SimpleCallback onCompleted = null)
+        {
+            if (transform == null)
+            {
+                Debug.LogError("Transform value cannot be null. Please ensure it is assigned in the Inspector or passed through the constructor.");
+
+                onCompleted?.Invoke();
+
+                return;
+            }
+
+            scaleTweenCase.Kill();
+
+            if (immediately)
+            {
+                transform.localScale = Vector3.zero;
+                onCompleted?.Invoke();
+
+                return;
+            }
+            // scaleTweenCase = transform.DOPushScale(Vector3.one * scaleMultiplier, Vector3.zero, duration * 0.36f, duration * 0.64f, Ease.OutCubic, Ease.InCubic, delay).OnComplete(() =>
+            scaleTweenCase = transform.DOScale(Vector3.zero, duration * 0.64f).SetEase(Ease.InCubic).SetDelay(delay).OnComplete(() =>
+            {
+                onCompleted?.Invoke();
+            });
+        }
+
+        public void Unload()
+        {
+            scaleTweenCase?.Kill();
+        }
+    }
+}

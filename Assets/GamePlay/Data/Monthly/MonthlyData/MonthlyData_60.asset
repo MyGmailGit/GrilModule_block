@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef40c16641b1040e8a505b4837ed3fec, type: 3}
+  m_Name: MonthlyData_60
+  m_EditorClassIdentifier: 
+  need: 60
+  limitedTag_free: 0
+  limitedTag_prem: 1
+  rewardsFreeSet: {fileID: 11400000, guid: 38666d927381b4cff804dd63f2d13323, type: 2}
+  rewardsPremSet: {fileID: 11400000, guid: 5fb96a2093cfa4e12adc637851123b61, type: 2}
