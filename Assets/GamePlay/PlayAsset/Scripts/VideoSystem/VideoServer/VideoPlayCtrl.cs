@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using VideoSystem;
 using UnityEngine.Networking;
 using Util;
+using Watermelon;
 
 namespace Game.Video
 {
@@ -64,7 +65,7 @@ namespace Game.Video
 
         private DownloadWaitState isWaitForDownload = DownloadWaitState.None;
 
-        // private IMGBackgroundManager iMGBackgroundManager = null;
+        private IMGBackgroundManager iMGBackgroundManager = null;
 
         private Color colorHide = new Color(1, 1, 1, 0);
         private Color colorShow = new Color(1, 1, 1, 1);
@@ -390,41 +391,41 @@ namespace Game.Video
                 SetDisplayTarget(displayTarget);
             }
 
-            //             string enterType = PlayerPrefs.GetString(Watermelon.AnalyticsEventType.ad_network.ToString(), AdjustAnalyticsModule.AdjustOrganic);//"organic");
+            string enterType = PlayerPrefs.GetString(Watermelon.AnalyticsEventType.ad_network.ToString(), AdjustAnalyticsModule.AdjustOrganic);//"organic");
 
-            //             //event
-            //             if (isEnterVideo == null || isEnterVideo != enterType)
-            //             {
-            //                 isEnterVideo = enterType;
-            //                 // 每次进游戏就上传一次事件，后面如果改变再重新传一个
-            //                 AnalyticsController.OnAdNetworkVideoChange(enterType);
-            //             }
+            //event
+            if (isEnterVideo == null || isEnterVideo != enterType)
+            {
+                isEnterVideo = enterType;
+                // 每次进游戏就上传一次事件，后面如果改变再重新传一个
+                AnalyticsController.OnAdNetworkVideoChange(enterType);
+            }
 
-            // #if TEST_MODE
-            //             // 如果设置强制走视频
-            //             if (DevPanelEnabler.IsDevForceToVideo || FirebaseRemote.ServerRemoteMgr.Instance.GetAB_VideoIsB())
-            //             {
-            //                 // 开始加载视频
-            //                 currentLoadCoroutine = StartCoroutine(LoadVideoCoroutine(targetfileNameId));
-            //                 return;
-            //             }
-            // #endif
-            //             // Debug.Log($"[ReleaseMode] adjust={enterType}, force={FirebaseRemote.ServerRemoteMgr.Instance.Remote_ForceToA()}");
-            //             // // if (enterType == AdjustAnalyticsModule.AdjustOrganic || FirebaseRemote.ServerRemoteMgr.Instance.Remote_ForceToA())//"organic")
-            //             // if (string.Equals(enterType, AdjustAnalyticsModule.AdjustOrganic, System.StringComparison.OrdinalIgnoreCase)
-            //             //     || FirebaseRemote.ServerRemoteMgr.Instance.Remote_ForceToA())
-            //             if (!FirebaseRemote.ServerRemoteMgr.Instance.GetAB_VideoIsB())
-            //             {
+#if TEST_MODE
+            // 如果设置强制走视频
+            if (DevPanelEnabler.IsDevForceToVideo || FirebaseRemote.ServerRemoteMgr.Instance.GetAB_VideoIsB())
+            {
+                // 开始加载视频
+                currentLoadCoroutine = StartCoroutine(LoadVideoCoroutine(targetfileNameId));
+                return;
+            }
+#endif
+            // Debug.Log($"[ReleaseMode] adjust={enterType}, force={FirebaseRemote.ServerRemoteMgr.Instance.Remote_ForceToA()}");
+            // // if (enterType == AdjustAnalyticsModule.AdjustOrganic || FirebaseRemote.ServerRemoteMgr.Instance.Remote_ForceToA())//"organic")
+            // if (string.Equals(enterType, AdjustAnalyticsModule.AdjustOrganic, System.StringComparison.OrdinalIgnoreCase)
+            //     || FirebaseRemote.ServerRemoteMgr.Instance.Remote_ForceToA())
+            if (!FirebaseRemote.ServerRemoteMgr.Instance.GetAB_VideoIsB())
+            {
 
-            //                 if (iMGBackgroundManager == null)
-            //                 {
-            //                     iMGBackgroundManager = gameObject.AddComponent<IMGBackgroundManager>();
-            //                 }
+                if (iMGBackgroundManager == null)
+                {
+                    iMGBackgroundManager = gameObject.AddComponent<IMGBackgroundManager>();
+                }
 
-            //                 iMGBackgroundManager.SetBackgroundByLevel(displayTarget);
-            //                 OnVideoStarted?.Invoke(currentfileNameId);
-            //             }
-            //             else
+                iMGBackgroundManager.SetBackgroundByLevel(displayTarget);
+                OnVideoStarted?.Invoke(targetfileNameId);
+            }
+            else
             {
                 // 开始加载视频
                 currentLoadCoroutine = StartCoroutine(LoadVideoCoroutine(targetfileNameId));
