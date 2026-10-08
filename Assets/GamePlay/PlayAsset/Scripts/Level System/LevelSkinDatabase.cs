@@ -1,12 +1,12 @@
-﻿// #pragma warning disable 0649
+﻿#pragma warning disable 0649
 
-// using UnityEngine;
+using UnityEngine;
 
-// namespace Watermelon
-// {
-//     [CreateAssetMenu(fileName = "Level Skin Database", menuName = "Data/Skins/Level Skin Database")]
-//     public class LevelSkinDatabase : GenericSkinDatabase<LevelSkinData>
-//     {
+namespace Watermelon
+{
+    [CreateAssetMenu(fileName = "Level Skin Database", menuName = "Data/Skins/Level Skin Database")]
+    public class LevelSkinDatabase : GenericSkinDatabase<LevelSkinData>
+    {
 
-//     }
-// }
+    }
+}

@@ -4,7 +4,7 @@ namespace Watermelon
 {
     public class PUExtraTimeTutorial : BaseTutorial
     {
-        private readonly PUType POWER_UP_TYPE = PUType.Back;
+        private readonly PUType POWER_UP_TYPE = PUType.FreezeTimer;
 
         [Space]
         [SerializeField] Color textHighlightColor = Color.red;

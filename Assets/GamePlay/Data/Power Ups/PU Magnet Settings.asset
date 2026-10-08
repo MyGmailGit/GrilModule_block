@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1673e4678e9c8d4f86345cc04262de1, type: 3}
+  m_Name: PU Magnet Settings
+  m_EditorClassIdentifier: 
+  type: 2
+  icon: {fileID: 21300000, guid: 62c58d170d4214a01be49b81b328599f, type: 3}
+  behaviorPrefab: {fileID: 9020957379626246020, guid: ac6b148af819a204f8df4e38efa28d81,
+    type: 3}
+  customAudioClip:
+    enabled: 0
+    value: {fileID: 0}
+  announcementPopupData:
+    showAnnouncementPopup: 0
+    previewSprite: {fileID: 0}
+    description: 
+  defaultAmount: 3
+  description: Remove all blocks of selected color.
+  requiredLevel: 1
+  visualiseActiveState: 0
+  backgroundColor: {r: 1, g: 1, b: 1, a: 1}
+  purchaseOption: 0
+  currencyType: 0
+  price: 50
+  purchaseAmount: 1
+  floatingMessage: 

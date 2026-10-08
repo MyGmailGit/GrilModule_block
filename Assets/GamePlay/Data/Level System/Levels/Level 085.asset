@@ -1,0 +1,982 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecf9f3db3da18674d9f8a02b35802f97, type: 3}
+  m_Name: Level 085
+  m_EditorClassIdentifier: 
+  size: {x: 9, y: 10}
+  levelElements:
+  - type: 2
+    position: {x: 0, y: 0}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 4
+    position: {x: 1, y: 0}
+    blockType: 0
+    blockColor: 9
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 4
+    position: {x: 2, y: 0}
+    blockType: 0
+    blockColor: 9
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 4
+    position: {x: 3, y: 0}
+    blockType: 0
+    blockColor: 0
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 4
+    position: {x: 4, y: 0}
+    blockType: 0
+    blockColor: 0
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 4
+    position: {x: 5, y: 0}
+    blockType: 0
+    blockColor: 0
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 4
+    position: {x: 6, y: 0}
+    blockType: 0
+    blockColor: 3
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 4
+    position: {x: 7, y: 0}
+    blockType: 0
+    blockColor: 3
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 2
+    position: {x: 8, y: 0}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 4
+    position: {x: 0, y: 1}
+    blockType: 0
+    blockColor: 4
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 3
+    position: {x: 1, y: 1}
+    blockType: 3
+    blockColor: 1
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects:
+    - type: 10
+      horizontalDirection: 0
+      layeredBlockColor: 8
+      bombDuration: 0
+      iceTurnsAmount: 0
+      keysAmount: 0
+      ropesColors: 
+      scissorsColor: 10
+      combineGroupID: 0
+    gateEffects: []
+  - type: 1
+    position: {x: 2, y: 1}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 3
+    position: {x: 3, y: 1}
+    blockType: 27
+    blockColor: 1
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects:
+    - type: 9
+      horizontalDirection: 0
+      layeredBlockColor: 8
+      bombDuration: 0
+      iceTurnsAmount: 0
+      keysAmount: 0
+      ropesColors: 04000000020000000500000000000000090000000a000000
+      scissorsColor: 8
+      combineGroupID: 0
+    gateEffects: []
+  - type: 1
+    position: {x: 4, y: 1}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 1
+    position: {x: 5, y: 1}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 1
+    position: {x: 6, y: 1}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 3
+    position: {x: 7, y: 1}
+    blockType: 3
+    blockColor: 1
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects:
+    - type: 10
+      horizontalDirection: 0
+      layeredBlockColor: 8
+      bombDuration: 0
+      iceTurnsAmount: 0
+      keysAmount: 0
+      ropesColors: 
+      scissorsColor: 0
+      combineGroupID: 0
+    gateEffects: []
+  - type: 4
+    position: {x: 8, y: 1}
+    blockType: 0
+    blockColor: 1
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 4
+    position: {x: 0, y: 2}
+    blockType: 0
+    blockColor: 4
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 1
+    position: {x: 1, y: 2}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 1
+    position: {x: 2, y: 2}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 1
+    position: {x: 3, y: 2}
+    blockType: 9
+    blockColor: 0
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 1
+    position: {x: 4, y: 2}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 1
+    position: {x: 5, y: 2}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 1
+    position: {x: 6, y: 2}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 1
+    position: {x: 7, y: 2}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 4
+    position: {x: 8, y: 2}
+    blockType: 0
+    blockColor: 1
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 4
+    position: {x: 0, y: 3}
+    blockType: 0
+    blockColor: 4
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 1
+    position: {x: 1, y: 3}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 1
+    position: {x: 2, y: 3}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 1
+    position: {x: 3, y: 3}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 5
+    position: {x: 4, y: 3}
+    blockType: 0
+    blockColor: 4
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 1
+    position: {x: 5, y: 3}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 1
+    position: {x: 6, y: 3}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 1
+    position: {x: 7, y: 3}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 4
+    position: {x: 8, y: 3}
+    blockType: 0
+    blockColor: 1
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 2
+    position: {x: 0, y: 4}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 1
+    position: {x: 1, y: 4}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 3
+    position: {x: 2, y: 4}
+    blockType: 6
+    blockColor: 2
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 1
+    position: {x: 3, y: 4}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 1
+    position: {x: 4, y: 4}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 3
+    position: {x: 5, y: 4}
+    blockType: 7
+    blockColor: 0
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 1
+    position: {x: 6, y: 4}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 1
+    position: {x: 7, y: 4}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 2
+    position: {x: 8, y: 4}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 2
+    position: {x: 0, y: 5}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 3
+    position: {x: 1, y: 5}
+    blockType: 3
+    blockColor: 2
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects:
+    - type: 10
+      horizontalDirection: 0
+      layeredBlockColor: 8
+      bombDuration: 0
+      iceTurnsAmount: 0
+      keysAmount: 0
+      ropesColors: 
+      scissorsColor: 5
+      combineGroupID: 0
+    gateEffects: []
+  - type: 1
+    position: {x: 2, y: 5}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 1
+    position: {x: 3, y: 5}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 1
+    position: {x: 4, y: 5}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 1
+    position: {x: 5, y: 5}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 1
+    position: {x: 6, y: 5}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 3
+    position: {x: 7, y: 5}
+    blockType: 3
+    blockColor: 3
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects:
+    - type: 10
+      horizontalDirection: 0
+      layeredBlockColor: 8
+      bombDuration: 0
+      iceTurnsAmount: 0
+      keysAmount: 0
+      ropesColors: 
+      scissorsColor: 9
+      combineGroupID: 0
+    gateEffects: []
+  - type: 2
+    position: {x: 8, y: 5}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 2
+    position: {x: 0, y: 6}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 1
+    position: {x: 1, y: 6}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 3
+    position: {x: 2, y: 6}
+    blockType: 8
+    blockColor: 1
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects:
+    - type: 10
+      horizontalDirection: 0
+      layeredBlockColor: 8
+      bombDuration: 0
+      iceTurnsAmount: 0
+      keysAmount: 0
+      ropesColors: 
+      scissorsColor: 4
+      combineGroupID: 0
+    gateEffects: []
+  - type: 1
+    position: {x: 3, y: 6}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 1
+    position: {x: 4, y: 6}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 1
+    position: {x: 5, y: 6}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 1
+    position: {x: 6, y: 6}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 1
+    position: {x: 7, y: 6}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 2
+    position: {x: 8, y: 6}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 2
+    position: {x: 0, y: 7}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 1
+    position: {x: 1, y: 7}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 1
+    position: {x: 2, y: 7}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 1
+    position: {x: 3, y: 7}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 1
+    position: {x: 4, y: 7}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 3
+    position: {x: 5, y: 7}
+    blockType: 9
+    blockColor: 4
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects:
+    - type: 10
+      horizontalDirection: 0
+      layeredBlockColor: 8
+      bombDuration: 0
+      iceTurnsAmount: 0
+      keysAmount: 0
+      ropesColors: 
+      scissorsColor: 2
+      combineGroupID: 0
+    gateEffects: []
+  - type: 1
+    position: {x: 6, y: 7}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 1
+    position: {x: 7, y: 7}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 2
+    position: {x: 8, y: 7}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 2
+    position: {x: 0, y: 8}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 1
+    position: {x: 1, y: 8}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 1
+    position: {x: 2, y: 8}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 1
+    position: {x: 3, y: 8}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 1
+    position: {x: 4, y: 8}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 1
+    position: {x: 5, y: 8}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 3
+    position: {x: 6, y: 8}
+    blockType: 9
+    blockColor: 9
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 1
+    position: {x: 7, y: 8}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 2
+    position: {x: 8, y: 8}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 2
+    position: {x: 0, y: 9}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 2
+    position: {x: 1, y: 9}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 2
+    position: {x: 2, y: 9}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 4
+    position: {x: 3, y: 9}
+    blockType: 0
+    blockColor: 2
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 4
+    position: {x: 4, y: 9}
+    blockType: 0
+    blockColor: 2
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 4
+    position: {x: 5, y: 9}
+    blockType: 0
+    blockColor: 2
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 2
+    position: {x: 6, y: 9}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 2
+    position: {x: 7, y: 9}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  - type: 2
+    position: {x: 8, y: 9}
+    blockType: 0
+    blockColor: 8
+    interactableObjectType: 0
+    interactableObjectData:
+      type: 0
+      obstacleColor: 0
+    blockEffects: []
+    gateEffects: []
+  duration: 90
+  type: 0
+  useInRandomizer: 1

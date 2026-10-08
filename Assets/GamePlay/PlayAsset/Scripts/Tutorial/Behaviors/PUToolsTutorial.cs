@@ -5,9 +5,9 @@ namespace Watermelon
 {
     public class PUToolsTutorial : BaseTutorial
     {
-        private readonly PUType POWER_UP_TYPE_Back = PUType.Back;
-        private readonly PUType POWER_UP_TYPE_Suggest = PUType.Suggest;
-        private readonly PUType POWER_UP_TYPE_AddBot = PUType.AddBot;
+        private readonly PUType POWER_UP_TYPE_Back = PUType.FreezeTimer;
+        private readonly PUType POWER_UP_TYPE_Suggest = PUType.Hammer;
+        private readonly PUType POWER_UP_TYPE_AddBot = PUType.Magnet;
 
 
         [Space]

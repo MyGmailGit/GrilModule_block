@@ -88,7 +88,7 @@ namespace Watermelon
         {
             iconImage.sprite = settings.Icon;
             iconImage.color = Color.white;
-            iconImage.SetNativeSize();
+            // iconImage.SetNativeSize();
 
             backgroundImage.color = settings.BackgroundColor;
         }

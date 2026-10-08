@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace Watermelon
 {
@@ -52,7 +52,7 @@ namespace Watermelon
             }
             else if (InputController.ClickAction.WasReleasedThisFrame())
             {
-                // LevelController.OnObjectReleased();
+                LevelController.OnObjectReleased();
             }
         }
 

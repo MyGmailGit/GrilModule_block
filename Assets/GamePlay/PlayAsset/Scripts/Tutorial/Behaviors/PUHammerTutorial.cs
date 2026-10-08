@@ -4,7 +4,7 @@ namespace Watermelon
 {
     public class PUHammerTutorial : BaseTutorial
     {
-        private readonly PUType POWER_UP_TYPE = PUType.Suggest;
+        private readonly PUType POWER_UP_TYPE = PUType.Hammer;
 
         [Space]
         [SerializeField] Color textHighlightColor = Color.red;

@@ -91,7 +91,7 @@ namespace Watermelon
 
         public override void PlayShowAnimation()
         {
-            // gameplayTimer.Show(LevelController.GameplayTimer);
+            gameplayTimer.Show(LevelController.GameplayTimer);
 
             coinsPanel.Activate();
             diamondPanel.Activate();

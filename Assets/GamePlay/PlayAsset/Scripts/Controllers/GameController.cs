@@ -13,8 +13,8 @@ namespace Watermelon
         private static ParticlesController particlesController;
         private static FloatingTextController floatingTextController;
         private static LevelController levelController;
-        // private static SkinController skinController;
-        // private static RaycastController raycastController;
+        private static SkinController skinController;
+        private static RaycastController raycastController;
         private static PUController puController;
         private static TutorialController tutorialController;
 
@@ -55,8 +55,8 @@ namespace Watermelon
             gameObject.CacheComponent(out particlesController);
             gameObject.CacheComponent(out floatingTextController);
             gameObject.CacheComponent(out levelController);
-            // gameObject.CacheComponent(out skinController);
-            // gameObject.CacheComponent(out raycastController);
+            gameObject.CacheComponent(out skinController);
+            gameObject.CacheComponent(out raycastController);
             gameObject.CacheComponent(out puController);
             gameObject.CacheComponent(out tutorialController);
 
@@ -68,14 +68,14 @@ namespace Watermelon
             // Initialize other controlles
             particlesController.Init();
             floatingTextController.Init();
-            // skinController.Init();
-            // raycastController.Init();
+            skinController.Init();
+            raycastController.Init();
 
             puController.Init();
             puController.InitBehaviors();
 
-            levelController.Init(gameData == null ? null : gameData.LevelDatabase);
-            // levelController.Init();
+            levelController.Init(gameData.LevelDatabase);
+
             tutorialController.Init();
 
             // Initialize currency cloud and pages
@@ -91,12 +91,12 @@ namespace Watermelon
 
         private void OnEnable()
         {
-            // RaycastController.OnObjectTouched += OnObjectTouched;
+            RaycastController.OnObjectTouched += OnObjectTouched;
         }
 
         private void OnDisable()
         {
-            // RaycastController.OnObjectTouched -= OnObjectTouched;
+            RaycastController.OnObjectTouched -= OnObjectTouched;
         }
 
         private void Start()
@@ -234,28 +234,123 @@ namespace Watermelon
 
             OnLevelCompleted();
 
-            levelController.FinishScaleToHideBalls(() =>
+            // levelController.FinishScaleToHideBalls(() =>
+            // {
+            GameBackgroundVideoPreview.PlayVictoryVideo(() =>
             {
-                GameBackgroundVideoPreview.PlayVictoryVideo(() =>
-                {
 
-                    UIController.ShowPage<UIFinishParticle>();
+                UIController.ShowPage<UIFinishParticle>();
 
-                    FinishPop(currentIdFinishData);//currentIdFinishData.mainId, currentIdFinishData.fileId, currentIdFinishData.isSpecial);
+                FinishPop(currentIdFinishData);//currentIdFinishData.mainId, currentIdFinishData.fileId, currentIdFinishData.isSpecial);
 
-                    // CollectNewFeatures();
+                CollectNewFeatures();
 
-                    // FeatureAnnouncementPopup.ShowAnnouncementIfExists();
-                });
+                FeatureAnnouncementPopup.ShowAnnouncementIfExists();
             });
+            // });
         }
+
+        private static void CollectNewFeatures()
+        {
+            ActiveSession activeSession = ActiveSession.Current;
+            int nextLevelIndex = activeSession.DisplayLevelIndex;
+
+            // Collect PUs
+            PUBehavior[] powerUps = PUController.ActivePowerUps;
+            foreach (PUBehavior pu in powerUps)
+            {
+                PUSettings settings = pu.Settings;
+                if (settings.RequiredLevel != 0 && !settings.IsUnlocked && (settings.RequiredLevel - 1) == nextLevelIndex)
+                {
+                    FeatureAnnouncementPopup.RegisterFeature(settings.AnnouncementPopupData);
+                }
+            }
+
+            // Collect effects
+            LevelData levelData = LevelController.LevelDatabase.GetLevel(nextLevelIndex);
+            if (levelData != null)
+            {
+                LevelRemoteConfigData overrideData = RemoteConfigController.TryGetConfig<LevelRemoteConfigData>($"level{nextLevelIndex + 1}");
+                if (overrideData != null)
+                {
+                    if (!string.IsNullOrEmpty(overrideData.hash))
+                    {
+                        levelData = levelData.DecompressLevel(overrideData.hash);
+                    }
+                }
+
+                LevelElementData[] levelElements = levelData.LevelElements;
+                foreach (LevelElementData levelElement in levelElements)
+                {
+                    if (levelElement.Type == ElementType.Block)
+                    {
+                        BlockEffectData[] blockEffects = levelElement.BlockEffects;
+                        if (!blockEffects.IsNullOrEmpty())
+                        {
+                            foreach (BlockEffectData blockEffect in blockEffects)
+                            {
+                                LevelBlockEffectData effectData = LevelController.GetEffectData(blockEffect.Type);
+                                if (effectData != null)
+                                {
+                                    if (!effectData.SaveData.IsAnnounced && effectData.AnnouncementPopupData.ShowAnnouncementPopup)
+                                    {
+                                        effectData.SaveData.IsAnnounced = true;
+
+                                        FeatureAnnouncementPopup.RegisterFeature(effectData.AnnouncementPopupData);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else if (levelElement.Type == ElementType.Gate)
+                    {
+                        GateEffectData[] gateEffects = levelElement.GateEffects;
+                        if (!gateEffects.IsNullOrEmpty())
+                        {
+                            foreach (GateEffectData gateEffect in gateEffects)
+                            {
+                                LevelGateEffectData effectData = LevelController.GetEffectData(gateEffect.Type);
+                                if (effectData != null)
+                                {
+                                    if (!effectData.SaveData.IsAnnounced && effectData.AnnouncementPopupData.ShowAnnouncementPopup)
+                                    {
+                                        effectData.SaveData.IsAnnounced = true;
+
+                                        FeatureAnnouncementPopup.RegisterFeature(effectData.AnnouncementPopupData);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else if (levelElement.Type == ElementType.InteractableObject)
+                    {
+                        if (levelElement.InteractableObjectData.Type != InteractableObjectType.None)
+                        {
+                            LevelInteractableObjectData interactableObjectData = LevelController.GetInteractableObject(levelElement.InteractableObjectData.Type);
+                            if (interactableObjectData != null)
+                            {
+                                if (!interactableObjectData.SaveData.IsAnnounced && interactableObjectData.AnnouncementPopupData.ShowAnnouncementPopup)
+                                {
+                                    interactableObjectData.SaveData.IsAnnounced = true;
+
+                                    FeatureAnnouncementPopup.RegisterFeature(interactableObjectData.AnnouncementPopupData);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+
         /// <summary>
         /// 重置
         /// </summary>
         /// <param name="failWinStreak">是否设置当前连胜失败</param>
         public static void ResetBallPlayPanel(bool failWinStreak)
         {
-            levelController.ResetBottlePlayPanel();
+            // levelController.ResetBottlePlayPanel();
             if (failWinStreak)
             {
                 MonthlyCtrl.Instance.OnLevelFail();
@@ -338,7 +433,7 @@ namespace Watermelon
 
         public static void OnLevelFailed()
         {
-            // LivesSystem.UnlockLife(true);
+            LivesSystem.UnlockLife(true);
 
             ActiveSession currentSession = ActiveSession.Current;
 
@@ -347,14 +442,67 @@ namespace Watermelon
             LevelController.InvokeScenario(LevelScenario.LevelFailed);
         }
 
+        public static void Replay(SimpleCallback onReplayCallback = null)
+        {
+            if (LivesSystem.Lives > 0 || LivesSystem.InfiniteMode)
+            {
+                onReplayCallback?.Invoke();
+
+                LivesSystem.LockLife();
+
+                Overlay.Show(0.3f, () =>
+                {
+                    Unload(() =>
+                    {
+                        LivesSystem.LockLife();
+
+                        SceneManager.LoadScene(GameConsts.SCENE_GAME);
+                    });
+                });
+            }
+            else
+            {
+                UIAddLivesPanel.Show((lifeRecieved) =>
+                {
+                    if (lifeRecieved)
+                    {
+                        onReplayCallback?.Invoke();
+
+                        Overlay.Show(0.3f, () =>
+                        {
+                            Unload(() =>
+                            {
+                                LivesSystem.LockLife();
+
+                                SceneManager.LoadScene(GameConsts.SCENE_GAME);
+                            });
+                        });
+                    }
+                    else
+                    {
+                        MusicSource musicSource = MusicSource.ActiveMusicSource;
+                        if (musicSource != null)
+                            musicSource.Fade(0.2f, 0.3f);
+
+                        Overlay.Show(0.3f, () =>
+                        {
+                            LoadMenu(() =>
+                            {
+                                if (musicSource != null)
+                                    musicSource.Fade(1, 0.3f);
+                            });
+                        });
+                    }
+                });
+            }
+        }
+
         public static void OnCompleteRewardRecieved()
         {
             Overlay.Show(0.3f, () =>
             {
                 Unload(() =>
                 {
-                    levelController.ResetBallSortModule();
-
                     SceneManager.LoadScene(GameConsts.SCENE_MENU);
                 });
             });
@@ -364,7 +512,7 @@ namespace Watermelon
         {
             Unload(() =>
             {
-                levelController.ResetBallSortModule();
+                // levelController.ResetBallSortModule();
                 SceneManager.LoadScene(GameConsts.SCENE_MENU);
 
                 unloadCallback?.Invoke();

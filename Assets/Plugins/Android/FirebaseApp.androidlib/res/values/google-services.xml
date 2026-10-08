@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:keep="@string/gcm_defaultSenderId,@string/google_storage_bucket,@string/project_id,@string/google_api_key,@string/google_crash_reporting_api_key,@string/google_app_id">
-  <string name="gcm_defaultSenderId" translatable="false">23753343320</string>
-  <string name="google_storage_bucket" translatable="false">ball-sort-1.firebasestorage.app</string>
-  <string name="project_id" translatable="false">ball-sort-1</string>
-  <string name="google_api_key" translatable="false">AIzaSyCONCgq63Sq_JqjUdr1uKdmbAy6c5tUu6s</string>
-  <string name="google_crash_reporting_api_key" translatable="false">AIzaSyCONCgq63Sq_JqjUdr1uKdmbAy6c5tUu6s</string>
-  <string name="google_app_id" translatable="false">1:23753343320:android:5b9be32e2cb87fd23fa52d</string>
+  <string name="gcm_defaultSenderId" translatable="false">898642297415</string>
+  <string name="google_storage_bucket" translatable="false">blockjam3-c5806.firebasestorage.app</string>
+  <string name="project_id" translatable="false">blockjam3-c5806</string>
+  <string name="google_api_key" translatable="false">AIzaSyBIu0g3H4cAFnuB_I0zTXVSWu0SEZTpmn4</string>
+  <string name="google_crash_reporting_api_key" translatable="false">AIzaSyBIu0g3H4cAFnuB_I0zTXVSWu0SEZTpmn4</string>
+  <string name="google_app_id" translatable="false">1:898642297415:android:228635de96769f7945a762</string>
 </resources>

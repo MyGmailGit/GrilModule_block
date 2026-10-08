@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Power Ups Database
   m_EditorClassIdentifier: 
   powerUps:
-  - {fileID: 11400000, guid: 31afd42ae07ed4e12a9c53b01e9e5957, type: 2}
-  - {fileID: 11400000, guid: 9c320205eb3204353b3163dd0cfb92a6, type: 2}
-  - {fileID: 11400000, guid: 4f3664b4291874b58bdd4d0e14008ea4, type: 2}
+  - {fileID: 11400000, guid: 7fe36aa13d2327f4e8a6962d32bbf5f7, type: 2}
+  - {fileID: 11400000, guid: edba80c7970b8654a895e5917a08cfe1, type: 2}
+  - {fileID: 11400000, guid: 6b554995a9fac7d428c0f037ba19a921, type: 2}

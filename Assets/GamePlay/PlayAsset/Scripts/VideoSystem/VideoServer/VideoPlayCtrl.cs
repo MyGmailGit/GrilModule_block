@@ -5,10 +5,8 @@ using UnityEngine;
 using UnityEngine.Video;
 using UnityEngine.UI;
 using VideoSystem;
-using Util;
 using UnityEngine.Networking;
-using Watermelon;
-using RenderHeads.Media.AVProVideo;
+using Util;
 
 namespace Game.Video
 {
@@ -37,29 +35,28 @@ namespace Game.Video
         }
         private const string LOG_TAG = "[VideoPlayCtrl]";
 
-        public event Action<string> OnVideoStarted;      // levelId
+        public event Action<string> OnVideoStarted;      // fileNameId
         public event Action OnVideoStopped;
-        public event Action<string> OnVideoCompleted;    // levelId
-        public event Action<string, string> OnVideoError; // levelId, error message
+        public event Action<string> OnVideoCompleted;    // fileNameId
+        public event Action<string, string> OnVideoError; // fileNameId, error message
 
 
-        public string LocalFolderPath = ServerUtil.MENU_VIDEO_UNITY_FOLDER_PATH;//"Assets/StreamingAssets/MenuBackgroundVideos";
-                                                                                // public string CacheFolderName = ServerUtil.MENU_VIDEO_CACHE_FOLDER_NAME;
+        private string LocalFolderPath = ServerUtil.MENU_VIDEO_UNITY_FOLDER_PATH;//"Assets/StreamingAssets/MenuBackgroundVideos";
+                                                                                 // public string CacheFolderName = ServerUtil.MENU_VIDEO_CACHE_FOLDER_NAME;
         public string TempDecryptFolderName { get; private set; } = "local.82f3f81d948044806972b405c182df33";
         public string FileExtension { get; private set; } = ServerUtil.MENU_VIDEO_FILE_EXTENSION;
         // public float DownloadTimeout = 5.0f;
         // public bool LoopVideo { get; private set; } = true;
-        public int DefaultLevelId { get; private set; } = 1;
-        public int MaxMappedLevelId { get; private set; } = 5;  // 只有5个本地视频映射
+        // public int DefaultfileNameId { get; private set; } = 1;
+        // public int MaxMappedfileNameId { get; private set; } = 5;  // 只有5个本地视频映射
 
         // [SerializeField] private VideoSystemConfig config;
 
-        // private VideoPlayer videoPlayer;
-        private VideoPlayer_AVPro mediaPlayer;
-        private DisplayUGUI displayUGUI;
+        private VideoPlayer videoPlayer;
         private RawImage displayTarget;
-        private string currentLevelId = null;
-        private string targetLevelId = null;
+        private RenderTexture videoRenderTexture;
+        private string currentfileNameId = null;
+        private string targetfileNameId = null;
         private string currentDecryptedFilePath;  // 当前解密的临时文件路径
         private bool isPrepared;
         private Coroutine currentLoadCoroutine;
@@ -67,7 +64,7 @@ namespace Game.Video
 
         private DownloadWaitState isWaitForDownload = DownloadWaitState.None;
 
-        private IMGBackgroundManager iMGBackgroundManager = null;
+        // private IMGBackgroundManager iMGBackgroundManager = null;
 
         private Color colorHide = new Color(1, 1, 1, 0);
         private Color colorShow = new Color(1, 1, 1, 1);
@@ -75,7 +72,7 @@ namespace Game.Video
         // Public properties
         // public bool IsPlaying => videoPlayer != null && videoPlayer.isPlaying;
         public bool IsPrepared => isPrepared;
-        public string CurrentLevelId => currentLevelId;
+        public string CurrentfileNameId => currentfileNameId;
 
 
         public bool iaAutoPause { get; set; } = false;
@@ -111,80 +108,88 @@ namespace Game.Video
 
         }
 
-        // private void InitializeVideoPlayer()
-        // {
-        //     GameObject videoObject = new GameObject("VideoPlayer", typeof(VideoPlayer));
-        //     videoObject.transform.SetParent(transform, false);
-        //     videoPlayer = videoObject.GetComponent<VideoPlayer>();
-
-        //     videoPlayer.playOnAwake = false;
-        //     videoPlayer.isLooping = config.LoopVideo;
-        //     videoPlayer.skipOnDrop = true;
-        //     videoPlayer.waitForFirstFrame = true;
-        //     videoPlayer.audioOutputMode = VideoAudioOutputMode.Direct;
-        //     videoPlayer.renderMode = VideoRenderMode.APIOnly;
-        //     videoPlayer.aspectRatio = VideoAspectRatio.FitOutside;
-        //     videoPlayer.controlledAudioTrackCount = 1;
-        //     videoPlayer.EnableAudioTrack(0, true);
-        //     videoPlayer.SetDirectAudioMute(0, false);
-        //     videoPlayer.SetDirectAudioVolume(0, 1.0f);
-        //     videoPlayer.loopPointReached += OnVideoFinished;
-        // }
-
         private void InitializeVideoPlayer()
         {
-            // 1. 创建 GameObject 并挂载 MediaPlayer 组件
-            GameObject videoObject = new GameObject("VideoPlayer", typeof(VideoPlayer_AVPro));
+
+            videoRenderTexture = new RenderTexture(1080, 1920, 24, RenderTextureFormat.ARGB32);
+            videoRenderTexture.Create();
+
+            GameObject videoObject = new GameObject("VideoPlayer", typeof(VideoPlayer));
             videoObject.transform.SetParent(transform, false);
-            mediaPlayer = videoObject.GetComponent<VideoPlayer_AVPro>();
-            videoObject.AddComponent<AudioSource>();
-            videoObject.AddComponent<AudioOutput>().Player = mediaPlayer;
+            videoPlayer = videoObject.GetComponent<VideoPlayer>();
 
-            // 2. 基础播放设置
-            mediaPlayer.AutoStart = false;        // 不自动播放，对应 playOnAwake = false
-            mediaPlayer.Loop = true;//LoopVideo; // 是否循环，对应 isLooping
+            videoPlayer.playOnAwake = false;
+            videoPlayer.isLooping = true;
+            videoPlayer.skipOnDrop = true;
+            videoPlayer.waitForFirstFrame = true;
+            videoPlayer.audioOutputMode = VideoAudioOutputMode.Direct;
+            videoPlayer.renderMode = VideoRenderMode.RenderTexture;
+            videoPlayer.targetTexture = videoRenderTexture;
+            videoPlayer.aspectRatio = VideoAspectRatio.FitOutside;
+            videoPlayer.controlledAudioTrackCount = 1;
+            videoPlayer.loopPointReached += OnVideoFinished;
+            videoPlayer.timeUpdateMode = VideoTimeUpdateMode.DSPTime;
 
-            // 3. 音频设置
-            // AVPro 默认启用所有音频轨道，如果只需第一轨，可以这样显式控制
-            mediaPlayer.AudioMuted = false;
-            // 如果有多轨需求，可通过 mediaPlayer.AudioManager 进一步控制
+            videoPlayer.EnableAudioTrack(0, true);
+            videoPlayer.SetDirectAudioMute(0, false);
+            videoPlayer.SetDirectAudioVolume(0, 1.0f);
 
-            // 4. 画面缩放模式：对应 aspectRatio = FitOutside
-            mediaPlayer.aspectRatio = ScaleMode.StretchToFill;
-
-            // 5. 获取视频纹理 (相当于 VideoPlayer 的 texture 属性)
-            // 后续需要渲染时，通过 mediaPlayer.TextureProducer.GetTexture() 获取纹理
-            // 或直接挂载 AVPro Video 的 uGUI 组件来显示
-
-            // 6. 事件监听：对应 loopPointReached
-            mediaPlayer.Events.AddListener(OnPlayerEvent);
-
-            // 注意：你原来代码中还有 skipOnDrop、waitForFirstFrame 和音量设置
-            // - skipOnDrop：AVPro 默认行为就是尽可能不丢帧，无需额外设置
-            // - waitForFirstFrame：默认会等待首帧，如果遇到问题可以尝试设置 mediaPlayer.m_Persistent = true
-            // - 音量设置：如果你需要初始音量为 1.0，默认就是 1.0，不需要额外设置
-            //   如果是 0，可以用 mediaPlayer.m_AudioManager.m_Volume = 0f
         }
 
-        private void OnPlayerEvent(MediaPlayer arg0, MediaPlayerEvent.EventType arg1, ErrorCode arg2)
-        {
-            // 根据事件类型处理
-            if (arg1 == MediaPlayerEvent.EventType.FinishedPlaying)
-            {
-                OnVideoFinished();
-            }
+        // private void InitializeVideoPlayer()
+        // {
+        //     // 1. 创建 GameObject 并挂载 MediaPlayer 组件
+        //     GameObject videoObject = new GameObject("VideoPlayer", typeof(VideoPlayer_AVPro));
+        //     videoObject.transform.SetParent(transform, false);
+        //     mediaPlayer = videoObject.GetComponent<VideoPlayer_AVPro>();
+        //     videoObject.AddComponent<AudioSource>();
+        //     videoObject.AddComponent<AudioOutput>().Player = mediaPlayer;
 
-            Debug.Log($"==============={arg1}");
-        }
+        //     // 2. 基础播放设置
+        //     mediaPlayer.AutoStart = false;        // 不自动播放，对应 playOnAwake = false
+        //     mediaPlayer.Loop = true;//LoopVideo; // 是否循环，对应 isLooping
 
-        private void OnVideoFinished()//VideoPlayer source)
+        //     // 3. 音频设置
+        //     // AVPro 默认启用所有音频轨道，如果只需第一轨，可以这样显式控制
+        //     mediaPlayer.AudioMuted = false;
+        //     // 如果有多轨需求，可通过 mediaPlayer.AudioManager 进一步控制
+
+        //     // 4. 画面缩放模式：对应 aspectRatio = FitOutside
+        //     mediaPlayer.aspectRatio = ScaleMode.StretchToFill;
+
+        //     // 5. 获取视频纹理 (相当于 VideoPlayer 的 texture 属性)
+        //     // 后续需要渲染时，通过 mediaPlayer.TextureProducer.GetTexture() 获取纹理
+        //     // 或直接挂载 AVPro Video 的 uGUI 组件来显示
+
+        //     // 6. 事件监听：对应 loopPointReached
+        //     mediaPlayer.Events.AddListener(OnPlayerEvent);
+
+        //     // 注意：你原来代码中还有 skipOnDrop、waitForFirstFrame 和音量设置
+        //     // - skipOnDrop：AVPro 默认行为就是尽可能不丢帧，无需额外设置
+        //     // - waitForFirstFrame：默认会等待首帧，如果遇到问题可以尝试设置 mediaPlayer.m_Persistent = true
+        //     // - 音量设置：如果你需要初始音量为 1.0，默认就是 1.0，不需要额外设置
+        //     //   如果是 0，可以用 mediaPlayer.m_AudioManager.m_Volume = 0f
+        // }
+
+        // private void OnPlayerEvent(MediaPlayer arg0, MediaPlayerEvent.EventType arg1, ErrorCode arg2)
+        // {
+        //     // 根据事件类型处理
+        //     if (arg1 == MediaPlayerEvent.EventType.FinishedPlaying)
+        //     {
+        //         OnVideoFinished();
+        //     }
+
+        //     Debug.Log($"==============={arg1}");
+        // }
+
+        private void OnVideoFinished(VideoPlayer source)
         {
-            OnVideoCompleted?.Invoke(CurrentLevelId);
+            OnVideoCompleted?.Invoke(CurrentfileNameId);
         }
 
         // private void OnVideoDownloadComplete(VideoDownloadCompleteEvent evt)
         // {
-        //     if (evt.LevelId == targetLevelId)
+        //     if (evt.fileNameId == targetfileNameId)
         //     {
         //         Debug.Log($"Video download started: {evt.LocalPath}");
         //         isWaitForDownload = DownloadWaitState.Complete;
@@ -192,7 +197,7 @@ namespace Game.Video
         // }
         // private void OnVideoDownloadFail(VideoDownloadAllServersFailedEvent evt)
         // {
-        //     if (evt.LevelId == targetLevelId)
+        //     if (evt.fileNameId == targetfileNameId)
         //     {
         //         isWaitForDownload = DownloadWaitState.Fail;
         //     }
@@ -227,46 +232,46 @@ namespace Game.Video
             return pathd;
         }
 
-        private int GetMappedLevelId(int levelId)
-        {
-            if (levelId <= 0)
-            {
-                return 1;
-            }
-            // 将任意关卡ID映射到1-5范围
-            if (levelId <= MaxMappedLevelId)
-                return levelId;
+        // private int GetMappedfileNameId(int fileNameId)
+        // {
+        //     if (fileNameId <= 0)
+        //     {
+        //         return 1;
+        //     }
+        //     // 将任意关卡ID映射到1-5范围
+        //     if (fileNameId <= MaxMappedfileNameId)
+        //         return fileNameId;
 
-            // 循环映射：6->1, 7->2, 8->3, 9->4, 10->5, 11->1...
-            int mappedId = ((levelId - 1) % MaxMappedLevelId) + 1;
-            return mappedId;
-        }
+        //     // 循环映射：6->1, 7->2, 8->3, 9->4, 10->5, 11->1...
+        //     int mappedId = ((fileNameId - 1) % MaxMappedfileNameId) + 1;
+        //     return mappedId;
+        // }
 
         private static string GetVideoFileName(string imageId)
         {
-            // int mappedId = GetMappedLevelId(levelId);
-            // return $"100{levelId:00}{config.FileExtension}";
+            // int mappedId = GetMappedfileNameId(fileNameId);
+            // return $"100{fileNameId:00}{config.FileExtension}";
             return ServerUtil.GetVideoFileName(imageId);
         }
 
-        private byte[] GetEncryptionKey(int levelId)
-        {
-            // string keyString = $"{levelId}level{levelId}";
-            return ServerUtil.GetEncryptionKey(levelId);//System.Text.Encoding.UTF8.GetBytes(keyString);
-        }
+        // private byte[] GetEncryptionKey(int fileNameId)
+        // {
+        //     // string keyString = $"{fileNameId}level{fileNameId}";
+        //     return ServerUtil.GetEncryptionKey(fileNameId);//System.Text.Encoding.UTF8.GetBytes(keyString);
+        // }
 
-        private byte[] EncryptOrDecrypt(byte[] data, int levelId)
-        {
-            byte[] key = GetEncryptionKey(levelId);
-            return Utility.CryptoHelper.XorQuick(data, key);
-        }
+        // private byte[] EncryptOrDecrypt(byte[] data, int fileNameId)
+        // {
+        //     byte[] key = GetEncryptionKey(fileNameId);
+        //     return Utility.CryptoHelper.XorQuick(data, key);
+        // }
 
         /// <summary>
         /// 从StreamingAssets拷贝到临时目录，仅仅用来播放视频
         /// </summary>
-        private IEnumerator CopyToTempFromStreamingAssets(string levelId, string sourceFilePath)
+        private IEnumerator CopyToTempFromStreamingAssets(string fileNameId, string sourceFilePath)
         {
-            Debug.Log($"{LOG_TAG} Copying and decrypting from StreamingAssets for level {levelId}");
+            Debug.Log($"{LOG_TAG} Copying and decrypting from StreamingAssets for level {fileNameId}");
 
 #if UNITY_ANDROID && !UNITY_EDITOR
             // Android需要使用UnityWebRequest读取
@@ -285,10 +290,10 @@ namespace Game.Video
                 }
                 
                 byte[] encryptedData = request.downloadHandler.data;
-                // byte[] decryptedData = EncryptOrDecrypt(encryptedData, levelId);
+                // byte[] decryptedData = EncryptOrDecrypt(encryptedData, fileNameId);
                 
                 // 保存解密的视频到临时目录
-                string tempFilePath = GetTempVideoPath(levelId);
+                string tempFilePath = GetTempVideoPath(fileNameId);
                 File.WriteAllBytes(tempFilePath, encryptedData);
                 currentDecryptedFilePath = tempFilePath;
                 
@@ -297,9 +302,9 @@ namespace Game.Video
 #else
             // Editor或Standalone可以直接读取文件
             byte[] encryptedData = File.ReadAllBytes(sourceFilePath);
-            // byte[] decryptedData = EncryptOrDecrypt(encryptedData, levelId);
+            // byte[] decryptedData = EncryptOrDecrypt(encryptedData, fileNameId);
 
-            string tempFilePath = GetTempVideoPath(levelId);
+            string tempFilePath = GetTempVideoPath(fileNameId);
             File.WriteAllBytes(tempFilePath, encryptedData);
             currentDecryptedFilePath = tempFilePath;
 
@@ -311,17 +316,17 @@ namespace Game.Video
         /// <summary>
         /// 从缓存或下载的视频解密到临时目录
         /// </summary>
-        private IEnumerator DecryptFromCache(string levelId, string encryptedFilePath)
+        private IEnumerator DecryptFromCache(string fileNameId, string encryptedFilePath)
         {
-            Debug.Log($"{LOG_TAG} Decrypting video from cache for level {levelId}");
+            Debug.Log($"{LOG_TAG} Decrypting video from cache for level {fileNameId}");
 
             if (File.Exists(encryptedFilePath))
             {
                 byte[] encryptedData = File.ReadAllBytes(encryptedFilePath);
-                // byte[] decryptedData = EncryptOrDecrypt(encryptedData, levelId);
-                byte[] decryptedData = ServerUtil.EncryptOrDecrypt(encryptedData, levelId);
+                // byte[] decryptedData = EncryptOrDecrypt(encryptedData, fileNameId);
+                byte[] decryptedData = ServerUtil.EncryptOrDecrypt(encryptedData, fileNameId);
 
-                string tempFilePath = GetTempVideoPath(levelId);
+                string tempFilePath = GetTempVideoPath(fileNameId);
                 File.WriteAllBytes(tempFilePath, decryptedData);
                 currentDecryptedFilePath = tempFilePath;
 
@@ -334,16 +339,16 @@ namespace Game.Video
             }
         }
 
-        private string GetTempVideoPath(string levelId)
+        private string GetTempVideoPath(string fileNameId)
         {
-            string md5 = MD5Util.GetMD5(levelId.ToString());
+            string md5 = MD5Util.GetMD5(fileNameId.ToString());
             string tempDir = GetTempDecryptDirectory();
             return Path.Combine(tempDir, $"{md5}_{FileExtension}");
         }
 
-        private static string GetCachedEncryptedPath(string levelId)
+        private static string GetCachedEncryptedPath(string fileNameId)
         {
-            string fileName = GetVideoFileName(levelId);
+            string fileName = GetVideoFileName(fileNameId);
             return Path.Combine(GetCacheDirectory(), fileName);
         }
 
@@ -351,30 +356,10 @@ namespace Game.Video
         {
             displayTarget = target;
             // if (isPrepared && videoPlayer != null && videoPlayer.texture != null && displayTarget != null)
-            // {
-            //     displayTarget.texture = videoPlayer.texture;
-            //     displayTarget.enabled = true;
-            // }
-            if (target == null) return;
-            displayUGUI = target.GetComponentInChildren<DisplayUGUI>();
-            if (displayUGUI != null)
+            if (displayTarget != null && videoRenderTexture != null)
             {
-                displayUGUI.Player = mediaPlayer;
-                displayUGUI.ScaleMode = ScaleMode.StretchToFill;
-            }
-            else
-            {
-                GameObject displayObj = new GameObject("DisplayUGUI", typeof(DisplayUGUI));
-                displayObj.transform.SetParent(target.transform, false);
-                displayUGUI = displayObj.GetComponent<DisplayUGUI>();
-                displayUGUI.Player = mediaPlayer;
-                displayUGUI.ScaleMode = ScaleMode.StretchToFill;
-                var displayRecttrans = displayObj.transform as RectTransform;
-                displayRecttrans.anchorMin = Vector2.zero;
-                displayRecttrans.anchorMax = Vector2.one;
-                displayRecttrans.sizeDelta = Vector2.zero;
-
-                displayUGUI.color = colorHide;
+                displayTarget.texture = videoRenderTexture;
+                displayTarget.enabled = true;
             }
         }
 
@@ -383,7 +368,7 @@ namespace Game.Video
         /// </summary>
         public void PlayLevelVideo(string imageId, RawImage displayTarget = null)
         {
-            targetLevelId = imageId;
+            targetfileNameId = imageId;
 
             // isWaitForDownload = DownloadWaitState.None;
 
@@ -405,44 +390,44 @@ namespace Game.Video
                 SetDisplayTarget(displayTarget);
             }
 
-            string enterType = PlayerPrefs.GetString(Watermelon.AnalyticsEventType.ad_network.ToString(), AdjustAnalyticsModule.AdjustOrganic);//"organic");
+            //             string enterType = PlayerPrefs.GetString(Watermelon.AnalyticsEventType.ad_network.ToString(), AdjustAnalyticsModule.AdjustOrganic);//"organic");
 
-            //event
-            if (isEnterVideo == null || isEnterVideo != enterType)
-            {
-                isEnterVideo = enterType;
-                // 每次进游戏就上传一次事件，后面如果改变再重新传一个
-                AnalyticsController.OnAdNetworkVideoChange(enterType);
-            }
+            //             //event
+            //             if (isEnterVideo == null || isEnterVideo != enterType)
+            //             {
+            //                 isEnterVideo = enterType;
+            //                 // 每次进游戏就上传一次事件，后面如果改变再重新传一个
+            //                 AnalyticsController.OnAdNetworkVideoChange(enterType);
+            //             }
 
-#if TEST_MODE
-            // 如果设置强制走视频
-            if (DevPanelEnabler.IsDevForceToVideo || FirebaseRemote.ServerRemoteMgr.Instance.GetAB_VideoIsB())
+            // #if TEST_MODE
+            //             // 如果设置强制走视频
+            //             if (DevPanelEnabler.IsDevForceToVideo || FirebaseRemote.ServerRemoteMgr.Instance.GetAB_VideoIsB())
+            //             {
+            //                 // 开始加载视频
+            //                 currentLoadCoroutine = StartCoroutine(LoadVideoCoroutine(targetfileNameId));
+            //                 return;
+            //             }
+            // #endif
+            //             // Debug.Log($"[ReleaseMode] adjust={enterType}, force={FirebaseRemote.ServerRemoteMgr.Instance.Remote_ForceToA()}");
+            //             // // if (enterType == AdjustAnalyticsModule.AdjustOrganic || FirebaseRemote.ServerRemoteMgr.Instance.Remote_ForceToA())//"organic")
+            //             // if (string.Equals(enterType, AdjustAnalyticsModule.AdjustOrganic, System.StringComparison.OrdinalIgnoreCase)
+            //             //     || FirebaseRemote.ServerRemoteMgr.Instance.Remote_ForceToA())
+            //             if (!FirebaseRemote.ServerRemoteMgr.Instance.GetAB_VideoIsB())
+            //             {
+
+            //                 if (iMGBackgroundManager == null)
+            //                 {
+            //                     iMGBackgroundManager = gameObject.AddComponent<IMGBackgroundManager>();
+            //                 }
+
+            //                 iMGBackgroundManager.SetBackgroundByLevel(displayTarget);
+            //                 OnVideoStarted?.Invoke(currentfileNameId);
+            //             }
+            //             else
             {
                 // 开始加载视频
-                currentLoadCoroutine = StartCoroutine(LoadVideoCoroutine(targetLevelId));
-                return;
-            }
-#endif
-            // Debug.Log($"[ReleaseMode] adjust={enterType}, force={FirebaseRemote.ServerRemoteMgr.Instance.Remote_ForceToA()}");
-            // // if (enterType == AdjustAnalyticsModule.AdjustOrganic || FirebaseRemote.ServerRemoteMgr.Instance.Remote_ForceToA())//"organic")
-            // if (string.Equals(enterType, AdjustAnalyticsModule.AdjustOrganic, System.StringComparison.OrdinalIgnoreCase)
-            //     || FirebaseRemote.ServerRemoteMgr.Instance.Remote_ForceToA())
-            if (!FirebaseRemote.ServerRemoteMgr.Instance.GetAB_VideoIsB())
-            {
-
-                if (iMGBackgroundManager == null)
-                {
-                    iMGBackgroundManager = gameObject.AddComponent<IMGBackgroundManager>();
-                }
-
-                iMGBackgroundManager.SetBackgroundByLevel(displayTarget);
-                OnVideoStarted?.Invoke(currentLevelId);
-            }
-            else
-            {
-                // 开始加载视频
-                currentLoadCoroutine = StartCoroutine(LoadVideoCoroutine(targetLevelId));
+                currentLoadCoroutine = StartCoroutine(LoadVideoCoroutine(targetfileNameId));
             }
         }
 
@@ -473,7 +458,7 @@ namespace Game.Video
                 // 3. 使用StreamingAssets中的本地视频并解密
                 string streamingAssetPath = GetStreamingAssetsPath(GetVideoFileName(imageId));
                 Debug.Log($"{LOG_TAG} Found video in StreamingAssets, copying and decrypting...");
-                // yield return CopyToTempFromStreamingAssets(levelId, streamingAssetPath);
+                // yield return CopyToTempFromStreamingAssets(fileNameId, streamingAssetPath);
                 // decryptedVideoPath = currentDecryptedFilePath;
                 yield return SaveEncryptedToCache(imageId, streamingAssetPath);
                 yield return DecryptFromCache(imageId, cachedEncryptedPath);
@@ -501,7 +486,6 @@ namespace Game.Video
                     // 出结果了
                     if (isWaitForDownload == DownloadWaitState.Complete)
                     {
-
                         yield return DecryptFromCache(imageId, cachedEncryptedPath);
                         decryptedVideoPath = currentDecryptedFilePath;
                     }
@@ -511,34 +495,6 @@ namespace Game.Video
                         yield break;
                     }
                 }
-
-                // // 3. 从远程下载
-                // Debug.Log($"{LOG_TAG} No local video found, downloading from remote for level {levelId}");
-                // // 发起下载
-                // VideoServerCtrl.Instance.DownloadVideo(levelId);
-                // isWaitForDownload = DownloadWaitState.Waitting;
-                // // 开始等待下载
-                // while (isWaitForDownload == DownloadWaitState.Waitting)
-                // {
-                //     yield return null;
-                // }
-                // // 出结果了
-                // if (isWaitForDownload == DownloadWaitState.Complete)
-                // {
-                //     cachedEncryptedPath = GetCachedEncryptedPath(levelId);
-                //     yield return DecryptFromCache(levelId, cachedEncryptedPath);
-                //     decryptedVideoPath = currentDecryptedFilePath;
-                // }
-                // else
-                // {
-                //     // 4. 使用StreamingAssets中的本地视频并解密
-                //     string streamingAssetPath = GetStreamingAssetsPath(GetVideoFileName(GetMappedLevelId(levelId)));
-                //     Debug.Log($"{LOG_TAG} Found video in StreamingAssets, copying and decrypting...");
-                //     yield return CopyToTempFromStreamingAssets(levelId, streamingAssetPath);
-                //     decryptedVideoPath = currentDecryptedFilePath;
-
-                //     yield return SaveEncryptedToCache(levelId, streamingAssetPath);
-                // }
             }
 
             // 准备并播放解密的视频
@@ -558,8 +514,6 @@ namespace Game.Video
             yield return null;
 
             // 预加载后续关卡
-            // VideoServerCtrl.Instance.EnqueuePreload(levelId + 1);
-            // VideoServerCtrl.Instance.EnqueuePreload(levelId + 2);
         }
 
         /// <summary>
@@ -597,12 +551,12 @@ namespace Game.Video
         /// <summary>
         /// 从stream中拷贝，拷贝到缓存目录，方便下次直接从这里解密
         /// </summary>
-        /// <param name="levelId"></param>
+        /// <param name="fileNameId"></param>
         /// <param name="sourcePath"></param>
         /// <returns></returns>
-        private IEnumerator SaveEncryptedToCache(string levelId, string sourcePath)
+        private IEnumerator SaveEncryptedToCache(string fileNameId, string sourcePath)
         {
-            string cachedPath = GetCachedEncryptedPath(levelId);
+            string cachedPath = GetCachedEncryptedPath(fileNameId);
 
             // 如果缓存文件已存在，跳过
             if (File.Exists(cachedPath))
@@ -626,100 +580,98 @@ namespace Game.Video
                     yield break;
                 }
 
-                // int newLevelid = CheckLevelFileCanSave(levelId);
-                cachedPath = GetCachedEncryptedPath(levelId);
+                // int newfileNameId = CheckLevelFileCanSave(fileNameId);
+                cachedPath = GetCachedEncryptedPath(fileNameId);
 
                 byte[] originalData = request.downloadHandler.data;
                 var DataTex = Utility.OpenSSLCryptoHelper.DecryptBytes(originalData, string.Concat(ServerUtil.keyBaseUrl));
-                // byte[] encryptedData = EncryptOrDecrypt(originalData, levelId);
-                byte[] encryptedData = ServerUtil.EncryptOrDecrypt(DataTex, levelId);
+                // byte[] encryptedData = EncryptOrDecrypt(originalData, fileNameId);
+                byte[] encryptedData = ServerUtil.EncryptOrDecrypt(DataTex, fileNameId);
                 File.WriteAllBytes(cachedPath, encryptedData);
             }
 #else
-            // int newLevelid = CheckLevelFileCanSave(levelId);
-            cachedPath = GetCachedEncryptedPath(levelId);
+            // int newfileNameId = CheckLevelFileCanSave(fileNameId);
+            cachedPath = GetCachedEncryptedPath(fileNameId);
 
             if (!File.Exists(sourcePath)) yield break;
 
             byte[] originalData = File.ReadAllBytes(sourcePath);
             var DataTex = Utility.OpenSSLCryptoHelper.DecryptBytes(originalData, string.Concat(ServerUtil.keyBaseUrl));
-            // byte[] encryptedData = EncryptOrDecrypt(originalData, newLevelid);
-            byte[] encryptedData = ServerUtil.EncryptOrDecrypt(DataTex, levelId);
+            // byte[] encryptedData = EncryptOrDecrypt(originalData, newfileNameId);
+            byte[] encryptedData = ServerUtil.EncryptOrDecrypt(DataTex, fileNameId);
             File.WriteAllBytes(cachedPath, encryptedData);
 #endif
         }
 
-        // private int CheckLevelFileCanSave(string levelId)
+        // private int CheckLevelFileCanSave(string fileNameId)
         // {
         //     int fileSuffix = 0;
-        //     string cachedPath = GetCachedEncryptedPath(levelId);
+        //     string cachedPath = GetCachedEncryptedPath(fileNameId);
         //     while (File.Exists(cachedPath))
         //     {
         //         fileSuffix++;
-        //         cachedPath = GetCachedEncryptedPath(levelId + fileSuffix);
+        //         cachedPath = GetCachedEncryptedPath(fileNameId + fileSuffix);
         //     }
 
-        //     return levelId + fileSuffix;
+        //     return fileNameId + fileSuffix;
         // }
 
-        private IEnumerator PrepareAndPlayVideo(string videoPath, string levelId)
+        private IEnumerator PrepareAndPlayVideo(string videoPath, string fileNameId)
         {
             bool prepareFinished = false;
             bool prepareSucceeded = false;
 
-            // videoPlayer.Stop();
-            mediaPlayer.Stop();
+            if (videoPlayer == null)
+            {
+                Debug.LogError($"{LOG_TAG} VideoPlayer is not initialized for level {fileNameId}");
+                OnVideoError?.Invoke(fileNameId, "VideoPlayer not initialized");
+                yield break;
+            }
+
+            videoPlayer.Stop();
             isPrepared = false;
 
             string playableUrl = ConvertToUrl(videoPath);
-            // videoPlayer.url = playableUrl;
-            mediaPlayer.url = playableUrl;
+            videoPlayer.url = playableUrl;
 
-            Debug.Log($"{LOG_TAG} Preparing video for level {levelId}: {videoPath}");
+            Debug.Log($"{LOG_TAG} Preparing video for level {fileNameId}: {videoPath}");
 
-            void HandlePrepared(VideoPlayer_AVPro source)
+            void HandlePrepared(VideoPlayer source)
             {
                 prepareFinished = true;
                 prepareSucceeded = true;
                 isPrepared = true;
-                currentLevelId = levelId;
-                Debug.Log($"{LOG_TAG} Video prepared for level {levelId}");
+                currentfileNameId = fileNameId;
+                Debug.Log($"{LOG_TAG} Video prepared for level {fileNameId}");
             }
 
-            void HandleError(VideoPlayer_AVPro source, string message)
+            void HandleError(VideoPlayer source, string message)
             {
                 prepareFinished = true;
                 prepareSucceeded = false;
                 isPrepared = false;
-                Debug.LogError($"{LOG_TAG} Prepare failed for level {levelId}: {message}");
-                OnVideoError?.Invoke(levelId, message);
+                Debug.LogError($"{LOG_TAG} Prepare failed for level {fileNameId}: {message}");
+                OnVideoError?.Invoke(fileNameId, message);
             }
 
-            // videoPlayer.prepareCompleted += HandlePrepared;
-            // videoPlayer.errorReceived += HandleError;
-            // videoPlayer.Prepare();
-
-            mediaPlayer.prepareCompleted += HandlePrepared;
-            mediaPlayer.errorReceived += HandleError;
-            mediaPlayer.Prepare();
+            videoPlayer.prepareCompleted += HandlePrepared;
+            videoPlayer.errorReceived += HandleError;
+            videoPlayer.Prepare();
 
             while (!prepareFinished)
             {
                 yield return null;
             }
 
-            Debug.Log($"{LOG_TAG} Prepared video for level {levelId}: {videoPath}");
+            Debug.Log($"{LOG_TAG} Prepared video for level {fileNameId}: {videoPath}");
 
-            // videoPlayer.prepareCompleted -= HandlePrepared;
-            // videoPlayer.errorReceived -= HandleError;
-            mediaPlayer.prepareCompleted -= HandlePrepared;
-            mediaPlayer.errorReceived -= HandleError;
+            videoPlayer.prepareCompleted -= HandlePrepared;
+            videoPlayer.errorReceived -= HandleError;
 
             if (prepareSucceeded)
             {
                 Debug.Log($"{LOG_TAG} BindVideoTexture Start");
                 // yield return BindVideoTexture();
-                yield return null;
                 Debug.Log($"{LOG_TAG} BindVideoTexture End");
                 Play();
             }
@@ -730,54 +682,64 @@ namespace Game.Video
         //     float timeout = 3.0f;
         //     float elapsed = 0.0f;
 
-        //     // while (elapsed < timeout)
-        //     // {
-        //     //     if (videoPlayer != null && displayTarget != null && videoPlayer.texture != null)
-        //     //     {
-        //     //         displayTarget.texture = videoPlayer.texture;
-        //     //         if (!displayTarget.enabled)
-        //     //         {
-        //     //             displayTarget.enabled = true;
-        //     //         }
-        //     //         Debug.Log($"{LOG_TAG} Video texture bound");
-        //     //         yield break;
-        //     //     }
+        //     while (elapsed < timeout)
+        //     {
+        //         if (videoPlayer != null && displayTarget != null && videoPlayer.texture != null)
+        //         {
+        //             displayTarget.texture = videoPlayer.texture;
+        //             if (!displayTarget.enabled)
+        //             {
+        //                 displayTarget.enabled = true;
+        //             }
+        //             Debug.Log($"{LOG_TAG} Video texture bound");
+        //             yield break;
+        //         }
 
-        //     //     elapsed += Time.unscaledDeltaTime;
-        //     yield return null;
-        //     // }
+        //         elapsed += Time.unscaledDeltaTime;
+        //         yield return null;
+        //     }
 
         //     Debug.LogWarning($"{LOG_TAG} Texture binding timeout");
         // }
 
         private void Play()
         {
-            if (!isPrepared || mediaPlayer == null)
+            if (!isPrepared || videoPlayer == null)
             {
                 Debug.LogWarning($"{LOG_TAG} Cannot play: video not prepared");
                 return;
             }
 
-            displayUGUI.color = colorShow;
+            if (displayTarget != null)
+            {
+                displayTarget.color = colorShow;
+                displayTarget.enabled = true;
+            }
 
-            // videoPlayer.Play();
-            mediaPlayer.Play();
-            OnVideoStarted?.Invoke(currentLevelId);
-            Debug.Log($"{LOG_TAG} Playback started for level {currentLevelId}");
+            videoPlayer.Play();
+            OnVideoStarted?.Invoke(currentfileNameId);
+            Debug.Log($"{LOG_TAG} Playback started for level {currentfileNameId}");
 
             if (iaAutoPause)
             {
                 // videoPlayer.Pause();
-                mediaPlayer.Pause();
+                StartCoroutine(PlayAutoPause());
             }
+        }
+        IEnumerator PlayAutoPause()
+        {
+            yield return null;
+            yield return null;
+            yield return null;
+            yield return null;
+            videoPlayer.Pause();
         }
 
         public void Stop()
         {
-            if (mediaPlayer != null)
+            if (videoPlayer != null)
             {
-                // videoPlayer.Stop();
-                mediaPlayer.Stop();
+                videoPlayer.Stop();
                 isPrepared = false;
                 OnVideoStopped?.Invoke();
                 Debug.Log($"{LOG_TAG} Playback stopped");
@@ -804,45 +766,73 @@ namespace Game.Video
             }
         }
 
+        /// <summary>
+        /// 是否有任何音轨
+        /// </summary>
+        /// <returns></returns>
+        public bool DoesVideoHaveActiveAudio()
+        {
+            // 1. 检查是否有任何音轨
+            if (videoPlayer.audioTrackCount == 0)
+            {
+                return false; // 没有音轨，判定为无声音频
+            }
+
+            // 2. 遍历所有音轨，检查是否有任何一个处于启用状态
+            for (ushort i = 0; i < videoPlayer.audioTrackCount; i++)
+            {
+                if (videoPlayer.IsAudioTrackEnabled(i))
+                {
+                    return true; // 有至少一个音轨是启用的，判定为有声音频
+                }
+            }
+
+            return false; // 虽然有音轨，但全部被禁用了
+        }
+
         public void Pause()
         {
-            if (mediaPlayer != null && mediaPlayer.isPlaying)
+            if (videoPlayer != null && videoPlayer.isPlaying)
             {
-                mediaPlayer.Pause();
+                videoPlayer.Pause();
                 Debug.Log($"{LOG_TAG} Playback paused");
             }
         }
 
-        public void Resume()
+        public bool Resume()
         {
-            if (mediaPlayer != null && !mediaPlayer.isPlaying && isPrepared)
+            if (videoPlayer != null && !videoPlayer.isPlaying && isPrepared)
             {
-                mediaPlayer.Play();
+                videoPlayer.Play();
                 Debug.Log($"{LOG_TAG} Playback resumed");
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
-
         public void SetVolume(float volume)
         {
-            if (mediaPlayer != null)
+            if (videoPlayer != null)
             {
-                mediaPlayer.SetDirectAudioVolume(0, Mathf.Clamp01(volume));
+                videoPlayer.SetDirectAudioVolume(0, Mathf.Clamp01(volume));
             }
         }
 
         public void SetMute(bool mute)
         {
-            if (mediaPlayer != null)
+            if (videoPlayer != null)
             {
-                mediaPlayer.SetDirectAudioMute(0, mute);
+                videoPlayer.SetDirectAudioMute(0, mute);
             }
         }
 
         public void SetLooping(bool loop)
         {
-            if (mediaPlayer != null)
+            if (videoPlayer != null)
             {
-                mediaPlayer.isLooping = loop;
+                videoPlayer.isLooping = loop;
             }
         }
 
@@ -884,9 +874,17 @@ namespace Game.Video
             {
                 StopCoroutine(fallbackRetryCoroutine);
             }
-            if (mediaPlayer != null)
+            if (videoPlayer != null)
             {
-                Destroy(mediaPlayer.gameObject);
+                videoPlayer.loopPointReached -= OnVideoFinished;
+                Destroy(videoPlayer.gameObject);
+                videoPlayer = null;
+            }
+
+            if (videoRenderTexture != null)
+            {
+                Destroy(videoRenderTexture);
+                videoRenderTexture = null;
             }
         }
 

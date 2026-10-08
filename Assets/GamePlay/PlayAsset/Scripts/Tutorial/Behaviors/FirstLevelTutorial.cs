@@ -1,8 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System;
-
 using DG.Tweening;
+
 namespace Watermelon
 {
     public class FirstLevelTutorial : BaseTutorial
@@ -22,11 +22,8 @@ namespace Watermelon
 
         private UIGame gameUI;
 
-        private BottleController firstBlock;
-        private BottleController secondBlock;
-
-        private bool is1stTouch = false;
-        private bool is2ndTouch = false;
+        private LevelBlockBehavior firstBlock;
+        private LevelBlockBehavior secondBlock;
 
         public override void Init()
         {
@@ -45,9 +42,9 @@ namespace Watermelon
         private void OnLevelLoaded()
         {
             ActiveSession activeSession = ActiveSession.Current;
-            if (activeSession.DisplayLevelIndex == 0 && !activeSession.IsPlaySpecialLevel())
+            if (activeSession.DisplayLevelIndex == 0)
             {
-                DOVirtual.DelayedCall(0.2f, () => StartTutorial());
+                DOVirtual.DelayedCall(0.1f, () => StartTutorial());
             }
         }
 
@@ -65,28 +62,20 @@ namespace Watermelon
 
         public override void StartTutorial()
         {
-            var bottles = LevelController.GetFirstAndSecondBottle();
+            List<LevelBlockBehavior> activeBlocks = LevelController.LevelRepresentation.ActiveBlocks;
 
-            firstBlock = bottles.firstBottle;
-            secondBlock = bottles.secondBottle;
-            if (firstBlock == null) return;
+            firstBlock = activeBlocks[0];
+            secondBlock = activeBlocks[1];
 
-            // List<LevelBlockBehavior> activeBlocks = LevelController.LevelRepresentation.ActiveBlocks;
-
-            // firstBlock = activeBlocks[0];
-            // secondBlock = activeBlocks[1];
-
-            firstBlock.OnBottleClickedOnly = OnFirstBlockCollected;
-            secondBlock.OnBottleClickedOnly = OnSecondBlockCollected;
+            firstBlock.BlockCollected += OnFirstBlockCollected;
+            secondBlock.BlockCollected += OnSecondBlockCollected;
 
             EnableFirstBlockPointer();
         }
 
         private void EnableFirstBlockPointer()
         {
-            // Bounds bounds = firstBlock.transform.position;
-
-            secondBlock.SetIsTouchEnableFor(false);
+            Bounds bounds = firstBlock.Figure.GetHorizontalCenterBounds();
 
             gameUI.MessageBox.Activate(string.Format(firstMessage, textHighlightColor.ToHex()));
             gameUI.MessageBox.ActivateTutorial();
@@ -95,16 +84,12 @@ namespace Watermelon
 
             TutorialCanvasController.AlignToCorner(messageRectTransform, TutorialCanvasController.UIAnchorCorner.TopCenter, new Vector2(0, -360));
 
-            TutorialCanvasController.ActivatePointerWithFirstTipMask(firstBlock.transform.position, TutorialCanvasController.POINTER_CLICK);
-
+            TutorialCanvasController.ActivatePointer(firstBlock.transform.position + bounds.center, TutorialCanvasController.POINTER_SWIPE_DOWN);
         }
 
         private void EnableSecondBlockPointer()
         {
-            // Bounds bounds = secondBlock.Figure.GetHorizontalCenterBounds();
-
-            secondBlock.SetIsTouchEnableFor(true);
-            firstBlock.SetIsTouchEnableFor(false);
+            Bounds bounds = secondBlock.Figure.GetHorizontalCenterBounds();
 
             gameUI.MessageBox.Activate(string.Format(secondMessage, textHighlightColor.ToHex()));
             gameUI.MessageBox.ActivateTutorial();
@@ -113,19 +98,15 @@ namespace Watermelon
 
             TutorialCanvasController.AlignToCorner(messageRectTransform, TutorialCanvasController.UIAnchorCorner.TopCenter, new Vector2(0, -360));
 
-            TutorialCanvasController.ActivatePointerWithFirstTipMask(secondBlock.transform.position, TutorialCanvasController.POINTER_CLICK);
+            TutorialCanvasController.ActivatePointer(secondBlock.transform.position + bounds.center, TutorialCanvasController.POINTER_SWIPE_UP);
         }
 
-        public void OnFirstBlockCollected(BottleController bottleController)
+        public void OnFirstBlockCollected()
         {
             gameUI.MessageBox.Disable();
             TutorialCanvasController.ResetPointer();
 
-            firstBlock.OnBottleClickedOnly = null;
-
-            is1stTouch = true;
-
-            if (!is2ndTouch)
+            if (!secondBlock.IsCollected)
             {
                 EnableSecondBlockPointer();
             }
@@ -135,14 +116,9 @@ namespace Watermelon
             }
         }
 
-        public void OnSecondBlockCollected(BottleController bottleController)
+        public void OnSecondBlockCollected()
         {
-            is2ndTouch = true;
-
-            firstBlock.OnBottleClickedOnly = null;
-            secondBlock.OnBottleClickedOnly = null;
-
-            if (is1stTouch)
+            if (firstBlock.IsCollected)
             {
                 gameUI.MessageBox.Disable();
                 TutorialCanvasController.ResetPointer();

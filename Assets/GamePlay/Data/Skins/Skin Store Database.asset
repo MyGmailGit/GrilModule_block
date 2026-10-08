@@ -1,0 +1,115 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7849743226bbdfc4b94365052ad63b65, type: 3}
+  m_Name: Skin Store Database
+  m_EditorClassIdentifier: 
+  tabs:
+  - uniqueId: 66aae8b9-2be1-46b8-bcae-931861dccf1a
+    name: Default
+    spawnTab: 0
+    type: 0
+    previewType: 0
+    previewPrefab: {fileID: 0}
+    backgroundImage: {fileID: 21300000, guid: 726a45d9a623cab449ee7e54527eb604, type: 3}
+    backgroundColor: {r: 1, g: 1, b: 1, a: 1}
+    panelColor: {r: 0.34117648, g: 0.6, b: 0.9764706, a: 1}
+    tabActiveColor: {r: 0.34117648, g: 0.6, b: 0.9764706, a: 1}
+    tabDisabledColor: {r: 0.38039216, g: 0.7254902, b: 0.50980395, a: 1}
+    productBackgroundColor: {r: 0.6745098, g: 0.8745098, b: 1, a: 1}
+  products:
+  - uniqueId: 2/11/2025 11:57:36 PM_591284
+    isExpanded: 0
+    id: 0
+    tabId: 0
+    isDummy: 0
+    name: Simple
+    openedSprite: {fileID: 21300000, guid: 1edbb8e0be3a6344481772c0f2101544, type: 3}
+    lockedSprite: {fileID: 21300000, guid: 1edbb8e0be3a6344481772c0f2101544, type: 3}
+    preview2DSprite: {fileID: 21300000, guid: 1edbb8e0be3a6344481772c0f2101544, type: 3}
+    skinId: a170b483-f37d-4c4a-83b3-d93cf3c38145
+    previewPrefab: {fileID: 0}
+    purchaseType: 0
+    currency: 0
+    cost: 0
+  - uniqueId: 2/11/2025 11:57:42 PM_85131
+    isExpanded: 0
+    id: 1
+    tabId: 0
+    isDummy: 0
+    name: Bricks
+    openedSprite: {fileID: 21300000, guid: cf28b32413a6c8f4d93b46526979bf65, type: 3}
+    lockedSprite: {fileID: 21300000, guid: cf28b32413a6c8f4d93b46526979bf65, type: 3}
+    preview2DSprite: {fileID: 21300000, guid: cf28b32413a6c8f4d93b46526979bf65, type: 3}
+    skinId: 91a6ae70-6476-41b4-ad7c-0299de508f84
+    previewPrefab: {fileID: 0}
+    purchaseType: 0
+    currency: 0
+    cost: 100
+  - uniqueId: 2/12/2025 10:55:02 PM_542356
+    isExpanded: 0
+    id: 2
+    tabId: 0
+    isDummy: 1
+    name: Comming Soon
+    openedSprite: {fileID: 21300000, guid: d088c4549ad829e46ab72337d1794a0b, type: 3}
+    lockedSprite: {fileID: 21300000, guid: d088c4549ad829e46ab72337d1794a0b, type: 3}
+    preview2DSprite: {fileID: 21300000, guid: d088c4549ad829e46ab72337d1794a0b, type: 3}
+    skinId: 
+    previewPrefab: {fileID: 0}
+    purchaseType: 0
+    currency: 0
+    cost: 0
+  - uniqueId: 2/12/2025 10:55:30 PM_843164
+    isExpanded: 0
+    id: 3
+    tabId: 0
+    isDummy: 1
+    name: Comming Soon
+    openedSprite: {fileID: 21300000, guid: d088c4549ad829e46ab72337d1794a0b, type: 3}
+    lockedSprite: {fileID: 21300000, guid: d088c4549ad829e46ab72337d1794a0b, type: 3}
+    preview2DSprite: {fileID: 21300000, guid: d088c4549ad829e46ab72337d1794a0b, type: 3}
+    skinId: 
+    previewPrefab: {fileID: 0}
+    purchaseType: 0
+    currency: 0
+    cost: 0
+  - uniqueId: 2/12/2025 10:55:47 PM_188794
+    isExpanded: 0
+    id: 4
+    tabId: 0
+    isDummy: 1
+    name: Comming Soon
+    openedSprite: {fileID: 21300000, guid: d088c4549ad829e46ab72337d1794a0b, type: 3}
+    lockedSprite: {fileID: 21300000, guid: d088c4549ad829e46ab72337d1794a0b, type: 3}
+    preview2DSprite: {fileID: 21300000, guid: d088c4549ad829e46ab72337d1794a0b, type: 3}
+    skinId: 
+    previewPrefab: {fileID: 0}
+    purchaseType: 0
+    currency: 0
+    cost: 0
+  - uniqueId: 2/12/2025 10:56:03 PM_849513
+    isExpanded: 0
+    id: 5
+    tabId: 0
+    isDummy: 1
+    name: Comming Soon
+    openedSprite: {fileID: 21300000, guid: d088c4549ad829e46ab72337d1794a0b, type: 3}
+    lockedSprite: {fileID: 21300000, guid: d088c4549ad829e46ab72337d1794a0b, type: 3}
+    preview2DSprite: {fileID: 21300000, guid: d088c4549ad829e46ab72337d1794a0b, type: 3}
+    skinId: 
+    previewPrefab: {fileID: 0}
+    purchaseType: 0
+    currency: 0
+    cost: 0
+  coinsForAdsAmount: 100
+  currencyForAds: 0
+  TabTypes: 0000000001000000

@@ -19,7 +19,7 @@ namespace Watermelon
         [SerializeField] Vector3 targetRotation;
         [SerializeField] float targetRotationDuration = 0.2f;
 
-        private Tween tweenCaseCollection;
+        private TweenCaseCollection tweenCaseCollection;
 
         private IChainElement linkedChainElement;
         private bool isLinked;
@@ -42,15 +42,14 @@ namespace Watermelon
             linkedChainElement = chainElement;
 
             tweenCaseCollection.Kill();
-            // tweenCaseCollection = new TweenCaseCollection();
+            tweenCaseCollection = new TweenCaseCollection();
 
             chainElement?.OnKeyLinked();
 
             transform.SetParent(null);
 
             Vector3 localPosition = transform.localPosition;
-            // tweenCaseCollection += 
-            transform.DOLocalMoveY(localPosition.y + yOffset, yDuration).OnComplete(() =>
+            tweenCaseCollection += transform.DOLocalMoveY(localPosition.y + yOffset, yDuration).OnComplete(() =>
             {
                 if (linkedChainElement == null || linkedChainElement.ChainVisualsBehavior == null)
                 {
@@ -62,16 +61,13 @@ namespace Watermelon
                 }
 
                 Vector3 lockPosition = linkedChainElement.ChainVisualsBehavior.LockObject.transform.position + moveOffset;
-                transform.DORotateQuaternion(Quaternion.Euler(baseRotation), baseRotationDuration);
-
-                // tweenCaseCollection += 
-                transform.DOMove(lockPosition, moveDuration).SetEase(moveEasing).OnComplete(() =>
+                tweenCaseCollection += transform.DORotateQuaternion(Quaternion.Euler(baseRotation), baseRotationDuration);
+                // tweenCaseCollection += transform.DOBezierMove(lockPosition, 1.5f, 0, 0, moveDuration).SetEasing(moveEasing).OnComplete(() =>
+                tweenCaseCollection += transform.DOMove(lockPosition, 1.5f).SetDelay(moveDuration).SetEase(moveEasing).OnComplete(() =>
                 {
-                    // tweenCaseCollection += 
-                    transform.DORotateQuaternion(Quaternion.Euler(targetRotation), targetRotationDuration).OnComplete(() =>
+                    tweenCaseCollection += transform.DORotateQuaternion(Quaternion.Euler(targetRotation), targetRotationDuration).SetDelay(0.1f).OnComplete(() =>
                     {
-                        // tweenCaseCollection += 
-                        DOVirtual.DelayedCall(0.2f, () =>
+                        tweenCaseCollection += DOVirtual.DelayedCall(0.2f, () =>
                         {
                             linkedChainElement?.OnKeyReached();
 

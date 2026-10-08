@@ -1,113 +1,113 @@
-﻿// using UnityEngine;
+﻿using UnityEngine;
 
-// namespace Watermelon
-// {
-//     public sealed class DoorsGateEffectBehavior : GateEffectBehavior
-//     {
-//         private const float COOLDOWN_DURATION = 0.1f;
+namespace Watermelon
+{
+    public sealed class DoorsGateEffectBehavior : GateEffectBehavior
+    {
+        private const float COOLDOWN_DURATION = 0.1f;
 
-//         [SerializeField] float arrowYOffset = 0.1f;
+        [SerializeField] float arrowYOffset = 0.1f;
 
-//         [Space]
-//         [SerializeField] DoorsVisualsData[] doorsVisualsDatas;
+        [Space]
+        [SerializeField] DoorsVisualsData[] doorsVisualsDatas;
 
-//         private DoorsGateVisualsBehavior visualsBehavior;
+        private DoorsGateVisualsBehavior visualsBehavior;
 
-//         private bool isOpened;
-//         public bool IsOpened => isOpened;
+        private bool isOpened;
+        public bool IsOpened => isOpened;
 
-//         private Transform arrowTransform;
-//         private Vector3 arrowPosition;
+        private Transform arrowTransform;
+        private Vector3 arrowPosition;
 
-//         private float lastActivateTime;
+        private float lastActivateTime;
 
-//         public override void OnCreated(GateBehavior gateBehavior)
-//         {
-//             arrowTransform = gateBehavior.ArrowTransform;
-//             arrowPosition = arrowTransform.position;
-//             arrowTransform.position = arrowPosition + new Vector3(0, arrowYOffset, 0);
+        public override void OnCreated(GateBehavior gateBehavior)
+        {
+            arrowTransform = gateBehavior.ArrowTransform;
+            arrowPosition = arrowTransform.position;
+            arrowTransform.position = arrowPosition + new Vector3(0, arrowYOffset, 0);
 
-//             isOpened = data.IsOpened;
+            isOpened = data.IsOpened;
 
-//             int doorsSize = gateBehavior.Data.UnifiedElements.Count;
-//             DoorsVisualsData doorsVisualsData = GetVisualsData(doorsSize);
-//             if (doorsVisualsData != null)
-//             {
-//                 GameObject visualsObject = Instantiate(doorsVisualsData.VisualsPrefab, transform);
-//                 visualsObject.transform.localPosition = Vector3.zero;
+            int doorsSize = gateBehavior.Data.UnifiedElements.Count;
+            DoorsVisualsData doorsVisualsData = GetVisualsData(doorsSize);
+            if (doorsVisualsData != null)
+            {
+                GameObject visualsObject = Instantiate(doorsVisualsData.VisualsPrefab, transform);
+                visualsObject.transform.localPosition = Vector3.zero;
 
-//                 visualsBehavior = visualsObject.GetComponent<DoorsGateVisualsBehavior>();
-//                 visualsBehavior.Init(this, doorsSize);
-//             }
-//             else
-//             {
-//                 DisableEffect();
+                visualsBehavior = visualsObject.GetComponent<DoorsGateVisualsBehavior>();
+                visualsBehavior.Init(this, doorsSize);
+            }
+            else
+            {
+                DisableEffect();
 
-//                 return;
-//             }
-//         }
+                return;
+            }
+        }
 
-//         public override void OnDisabled(GateBehavior gateBehavior)
-//         {
-//             arrowTransform.position = arrowPosition;
-//         }
+        public override void OnDisabled(GateBehavior gateBehavior)
+        {
+            arrowTransform.position = arrowPosition;
+        }
 
-//         public override bool CanGoThroughGate(LevelBlockBehavior levelBlockBehavior)
-//         {
-//             if (!isOpened)
-//                 return false;
+        public override bool CanGoThroughGate(LevelBlockBehavior levelBlockBehavior)
+        {
+            if (!isOpened)
+                return false;
 
-//             return base.CanGoThroughGate(levelBlockBehavior);
-//         }
+            return base.CanGoThroughGate(levelBlockBehavior);
+        }
 
-//         public override void OnBlockCollectedGlobal(LevelBlockBehavior levelBlockBehavior)
-//         {
-//             if (Time.time < lastActivateTime) return;
+        public override void OnBlockCollectedGlobal(LevelBlockBehavior levelBlockBehavior)
+        {
+            if (Time.time < lastActivateTime) return;
 
-//             lastActivateTime = Time.time + COOLDOWN_DURATION;
+            lastActivateTime = Time.time + COOLDOWN_DURATION;
 
-//             isOpened = !isOpened;
-//             if (isOpened)
-//             {
-//                 visualsBehavior.Open();
-//             }
-//             else
-//             {
-//                 visualsBehavior.Close();
-//             }
-//         }
+            isOpened = !isOpened;
+            if (isOpened)
+            {
+                visualsBehavior.Open();
+            }
+            else
+            {
+                visualsBehavior.Close();
+            }
+        }
 
-//         private void OnDestroy()
-//         {
-//             visualsBehavior?.Unload();
-//         }
+        private void OnDestroy()
+        {
+            visualsBehavior?.Unload();
+        }
 
-//         private DoorsVisualsData GetVisualsData(int gateSize)
-//         {
-//             DoorsVisualsData tempVisualData = null;
-//             int closestDifference = int.MaxValue;
+        private DoorsVisualsData GetVisualsData(int gateSize)
+        {
+            DoorsVisualsData tempVisualData = null;
+            int closestDifference = int.MaxValue;
 
-//             for (int i = 0; i < doorsVisualsDatas.Length; i++)
-//             {
-//                 int difference = Mathf.Abs(doorsVisualsDatas[i].GateSize - gateSize);
-//                 if (difference < closestDifference)
-//                 {
-//                     closestDifference = difference;
-//                     tempVisualData = doorsVisualsDatas[i];
-//                 }
-//             }
+            for (int i = 0; i < doorsVisualsDatas.Length; i++)
+            {
+                int difference = Mathf.Abs(doorsVisualsDatas[i].GateSize - gateSize);
+                if (difference < closestDifference)
+                {
+                    closestDifference = difference;
+                    tempVisualData = doorsVisualsDatas[i];
+                }
+            }
 
-//             return tempVisualData;
-//         }
+            return tempVisualData;
+        }
 
-//         [System.Serializable]
-//         public class DoorsVisualsData
-//         {
-//             [SerializeField] int gateSize;
-//             public int GateSize => gateSize;
+        [System.Serializable]
+        public class DoorsVisualsData
+        {
+            [SerializeField] int gateSize;
+            public int GateSize => gateSize;
 
-//             [SerializeField] GameObject visualsPrefab;
-//             public GameObject VisualsPrefab => visualsPrefab;
-//         }
-//     }
-// }
+            [SerializeField] GameObject visualsPrefab;
+            public GameObject VisualsPrefab => visualsPrefab;
+        }
+    }
+}

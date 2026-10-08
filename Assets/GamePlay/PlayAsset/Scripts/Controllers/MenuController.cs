@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using VideoSystem;
+using Watermelon.SkinStore;
 
 namespace Watermelon
 {
@@ -10,8 +11,8 @@ namespace Watermelon
 
         private static ParticlesController particlesController;
         private static FloatingTextController floatingTextController;
-        // private static SkinController skinController;
-        // private static SkinStoreController skinStoreController;
+        private static SkinController skinController;
+        private static SkinStoreController skinStoreController;
         private static PUController puController;
 
         private void Awake()
@@ -23,7 +24,7 @@ namespace Watermelon
             // Cache components
             gameObject.CacheComponent(out particlesController);
             gameObject.CacheComponent(out floatingTextController);
-            // gameObject.CacheComponent(out skinController);
+            gameObject.CacheComponent(out skinController);
             // gameObject.CacheComponent(out skinStoreController);
             gameObject.CacheComponent(out puController);
 
@@ -36,7 +37,7 @@ namespace Watermelon
 
             puController.Init();
 
-            // skinController.Init();
+            skinController.Init();
             // skinStoreController.Init(skinController);
 
             // Initialize currency cloud and pages

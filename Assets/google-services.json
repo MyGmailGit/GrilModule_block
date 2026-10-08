@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "23753343320",
-    "project_id": "ball-sort-1",
-    "storage_bucket": "ball-sort-1.firebasestorage.app"
+    "project_number": "898642297415",
+    "project_id": "blockjam3-c5806",
+    "storage_bucket": "blockjam3-c5806.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:23753343320:android:5b9be32e2cb87fd23fa52d",
+        "mobilesdk_app_id": "1:898642297415:android:228635de96769f7945a762",
         "android_client_info": {
-          "package_name": "com.fun.color.ball.sort.puzzle"
+          "package_name": "com.blockluma.colorjam"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCONCgq63Sq_JqjUdr1uKdmbAy6c5tUu6s"
+          "current_key": "AIzaSyBIu0g3H4cAFnuB_I0zTXVSWu0SEZTpmn4"
         }
       ],
       "services": {

@@ -1,40 +1,40 @@
-﻿// #pragma warning disable 0649
+﻿#pragma warning disable 0649
 
-// using UnityEngine;
+using UnityEngine;
 
-// namespace Watermelon
-// {
-//     [System.Serializable]
-//     public class BlockData
-//     {
-//         [SerializeField] BlockType type;
-//         public BlockType Type => type;
+namespace Watermelon
+{
+    [System.Serializable]
+    public class BlockData
+    {
+        [SerializeField] BlockType type;
+        public BlockType Type => type;
 
-//         [SerializeField] GameObject prefab;
-//         public GameObject Prefab => prefab;
+        [SerializeField] GameObject prefab;
+        public GameObject Prefab => prefab;
 
-//         public LevelBlockBehavior BlockBehavior { get; private set; }
-//         public LevelFigure Figure { get; private set; }
+        public LevelBlockBehavior BlockBehavior { get; private set; }
+        public LevelFigure Figure { get; private set; }
 
-//         public void Init()
-//         {
-//             if(prefab == null)
-//             {
-//                 Debug.LogError($"Prefab for block type {type} is not assigned.");
+        public void Init()
+        {
+            if (prefab == null)
+            {
+                Debug.LogError($"Prefab for block type {type} is not assigned.");
 
-//                 return;
-//             }
+                return;
+            }
 
-//             LevelBlockBehavior levelBlockBehavior = prefab.GetComponent<LevelBlockBehavior>();
-//             if(levelBlockBehavior == null)
-//             {
-//                 Debug.LogError($"Prefab for block type {type} does not have LevelBlockBehavior component.");
+            LevelBlockBehavior levelBlockBehavior = prefab.GetComponent<LevelBlockBehavior>();
+            if (levelBlockBehavior == null)
+            {
+                Debug.LogError($"Prefab for block type {type} does not have LevelBlockBehavior component.");
 
-//                 return;
-//             }
+                return;
+            }
 
-//             BlockBehavior = levelBlockBehavior;
-//             Figure = levelBlockBehavior.Figure;
-//         }
-//     }
-// }
+            BlockBehavior = levelBlockBehavior;
+            Figure = levelBlockBehavior.Figure;
+        }
+    }
+}

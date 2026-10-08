@@ -1,44 +1,44 @@
-// using System.Collections.Generic;
+using System.Collections.Generic;
 
-// #if UNITY_EDITOR
-// using UnityEditor;
-// #endif
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
-// namespace Watermelon
-// {
-//     public static class EditorEffectsHelper
-//     {
-// #if UNITY_EDITOR
-//         private static Dictionary<BlockEffectType, int> blockEffectsMap = new Dictionary<BlockEffectType, int>();
-// #endif
+namespace Watermelon
+{
+    public static class EditorEffectsHelper
+    {
+#if UNITY_EDITOR
+        private static Dictionary<BlockEffectType, int> blockEffectsMap = new Dictionary<BlockEffectType, int>();
+#endif
 
-//         public static int GetSortingOrder(BlockEffectType effectType)
-//         {
-//             int sortingOrder = 0;
+        public static int GetSortingOrder(BlockEffectType effectType)
+        {
+            int sortingOrder = 0;
 
-// #if UNITY_EDITOR
-//             blockEffectsMap.TryGetValue(effectType, out sortingOrder);
-// #endif
+#if UNITY_EDITOR
+            blockEffectsMap.TryGetValue(effectType, out sortingOrder);
+#endif
 
-//             return sortingOrder;
-//         }
+            return sortingOrder;
+        }
 
-// #if UNITY_EDITOR
-//         [InitializeOnLoadMethod]
-//         public static void Init()
-//         {
-//             LevelDatabase levelDatabase = EditorUtils.GetAsset<LevelDatabase>();
-//             if (levelDatabase == null) return;
+#if UNITY_EDITOR
+        [InitializeOnLoadMethod]
+        public static void Init()
+        {
+            LevelDatabase levelDatabase = EditorUtils.GetAsset<LevelDatabase>();
+            if (levelDatabase == null) return;
 
-//             LevelBlockEffectData[] effects = levelDatabase.Effects;
-//             if (effects.IsNullOrEmpty()) return;
+            LevelBlockEffectData[] effects = levelDatabase.Effects;
+            if (effects.IsNullOrEmpty()) return;
 
-//             blockEffectsMap = new Dictionary<BlockEffectType, int>();
-//             foreach (LevelBlockEffectData effect in effects)
-//             {
-//                 blockEffectsMap.Add(effect.Type, effect.Behavior.EffectSortingOrder);
-//             }
-//         }
-// #endif
-//     }
-// }
+            blockEffectsMap = new Dictionary<BlockEffectType, int>();
+            foreach (LevelBlockEffectData effect in effects)
+            {
+                blockEffectsMap.Add(effect.Type, effect.Behavior.EffectSortingOrder);
+            }
+        }
+#endif
+    }
+}

@@ -22,7 +22,7 @@ namespace Watermelon
             //     yield break;
             // }
             // string SERVER_URL = "https://t38d27g0t2.execute-api.ap-southeast-2.amazonaws.com/block1";
-            string SERVER_URL = "https://wl6ybb2jif.execute-api.ap-southeast-2.amazonaws.com/default/ballsort1";
+            string SERVER_URL = "https://kq7220kv96.execute-api.ap-southeast-2.amazonaws.com/default/gameblockjam3";
             using (UnityWebRequest request = UnityWebRequest.Get(SERVER_URL))
             {
                 request.timeout = 5;

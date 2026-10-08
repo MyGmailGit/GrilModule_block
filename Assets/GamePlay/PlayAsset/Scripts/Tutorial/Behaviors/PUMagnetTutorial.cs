@@ -4,7 +4,7 @@ namespace Watermelon
 {
     public class PUMagnetTutorial : BaseTutorial
     {
-        private readonly PUType POWER_UP_TYPE = PUType.AddBot;
+        private readonly PUType POWER_UP_TYPE = PUType.Magnet;
 
         [Space]
         [SerializeField] Color textHighlightColor = Color.red;
