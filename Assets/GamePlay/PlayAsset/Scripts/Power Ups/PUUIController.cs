@@ -77,6 +77,8 @@ namespace Watermelon
         {
             for (int i = 0; i < uiBehaviors.Length; i++)
             {
+                uiBehaviors[i].OnLevelStarted(levelNumber);
+
                 if (uiBehaviors[i].Behavior.IsActive())
                 {
                     uiBehaviors[i].Activate();
@@ -86,8 +88,6 @@ namespace Watermelon
                 {
                     uiBehaviors[i].Disable();
                 }
-
-                uiBehaviors[i].OnLevelStarted(levelNumber);
             }
         }
 

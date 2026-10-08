@@ -135,24 +135,25 @@ namespace Watermelon
 
         public void OnLevelStarted(int levelNumber)
         {
-            if (timerCoroutine != null)
-                StopCoroutine(timerCoroutine);
+            StopTimerCoroutine();
         }
 
         public void OnLevelFinished()
         {
-            if (isTimerActive)
+            StopTimerCoroutine();
+        }
+
+        private void StopTimerCoroutine()
+        {
+            if (timerCoroutine != null)
             {
-                if (timerCoroutine != null)
-                {
-                    StopCoroutine(timerCoroutine);
-                }
-
-                timerObject.SetActive(false);
-                iconImage.color = Color.white;
-
-                isTimerActive = false;
+                StopCoroutine(timerCoroutine);
+                timerCoroutine = null;
             }
+
+            timerObject.SetActive(false);
+            iconImage.color = Color.white;
+            isTimerActive = false;
         }
 
         private IEnumerator TimerCoroutine(PUTimer timer)

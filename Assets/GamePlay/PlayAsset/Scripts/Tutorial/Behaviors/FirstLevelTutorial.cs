@@ -42,7 +42,7 @@ namespace Watermelon
         private void OnLevelLoaded()
         {
             ActiveSession activeSession = ActiveSession.Current;
-            if (activeSession.DisplayLevelIndex == 0)
+            if (activeSession.DisplayLevelIndex == 0 && !activeSession.IsPlaySpecialLevel())
             {
                 DOVirtual.DelayedCall(0.1f, () => StartTutorial());
             }

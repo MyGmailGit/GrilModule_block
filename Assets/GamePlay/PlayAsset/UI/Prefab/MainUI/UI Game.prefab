@@ -346,7 +346,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5960384587562984603
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1970,7 +1970,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -227}
+  m_AnchoredPosition: {x: 0, y: -215.40002}
   m_SizeDelta: {x: 600, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2185249984812069266
@@ -4215,6 +4215,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Diamond Panel Simple
       objectReference: {fileID: 0}
+    - target: {fileID: 5770846571886544758, guid: ffd57f96cde7544118e48e1aff212fc3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7694990730049815158, guid: ffd57f96cde7544118e48e1aff212fc3,
         type: 3}
       propertyPath: m_Pivot.x
@@ -4852,12 +4857,12 @@ PrefabInstance:
     - target: {fileID: 6060951663975223784, guid: a1e394d9de27a794fa706da8c679d282,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -157
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6060951663975223784, guid: a1e394d9de27a794fa706da8c679d282,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -222
+      value: -117
       objectReference: {fileID: 0}
     - target: {fileID: 6060951663975223784, guid: a1e394d9de27a794fa706da8c679d282,
         type: 3}
@@ -4919,6 +4924,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Currency Panel Simple
+      objectReference: {fileID: 0}
+    - target: {fileID: 5770846571886544758, guid: 8bd707ccc762a5c40b83682643736deb,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7694990730049815158, guid: 8bd707ccc762a5c40b83682643736deb,
         type: 3}

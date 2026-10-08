@@ -25,9 +25,12 @@ namespace Watermelon
 
             startTime = Time.time;
 
-            delayTweenCase = DOVirtual.DelayedCall(duration, () => { onCompleted.Invoke(); });
-
             isActive = true;
+            delayTweenCase = DOVirtual.DelayedCall(duration, () =>
+            {
+                isActive = false;
+                onCompleted.Invoke();
+            });
         }
 
         public void Pause()

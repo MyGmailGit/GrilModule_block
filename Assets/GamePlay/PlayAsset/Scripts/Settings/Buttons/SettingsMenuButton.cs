@@ -14,30 +14,40 @@ namespace Watermelon
             // Play button sound
             AudioController.PlaySound(AudioController.AudioClips.buttonSound);
 
-            if (GameController.is_AB_VideoIsB_Local)
+            UILevelQuitPopUp.Show((confirmed) =>
             {
-
-                if (GameController.ShouldCheckMonthlyWinStreak())
+                if (confirmed)
                 {
-                    UIPopResetGame.Show((closeType) =>
+                    // LoadMenu();
+                    if (GameController.is_AB_VideoIsB_Local)
                     {
-                        if (closeType == UIPopResetGame.CloseType.RvTouch || closeType == UIPopResetGame.CloseType.LostTouch)
+
+                        if (GameController.ShouldCheckMonthlyWinStreak())
                         {
-                            if (closeType == UIPopResetGame.CloseType.LostTouch)
-                                MonthlyCtrl.Instance.OnLevelFail();
+                            UIPopResetGame.Show((closeType) =>
+                            {
+                                if (closeType == UIPopResetGame.CloseType.RvTouch || closeType == UIPopResetGame.CloseType.LostTouch)
+                                {
+                                    if (closeType == UIPopResetGame.CloseType.LostTouch)
+                                        MonthlyCtrl.Instance.OnLevelFail();
+                                    LoadMenu();
+                                }
+                            });
+                        }
+                        else
+                        {
                             LoadMenu();
                         }
-                    });
+                    }
+                    else
+                    {
+                        LoadMenu();
+                    }
                 }
-                else
-                {
-                    LoadMenu();
-                }
-            }
-            else
-            {
-                LoadMenu();
-            }
+            });
+
+
+
         }
 
         private void LoadMenu()
@@ -47,7 +57,7 @@ namespace Watermelon
             {
                 AdsManager.ShowInterstitial((result) =>
                 {
-                    // LivesSystem.UnlockLife(true);
+                    LivesSystem.UnlockLife(true);
 
                     // Save the current state of the game
                     SaveController.Save(true);

@@ -58,51 +58,55 @@ namespace Watermelon
         public static void OnMapLevelClicked(int levelID)
         {
             LoadGame(levelID);
-
-            // if (LivesSystem.Lives > 0 || LivesSystem.InfiniteMode)
-            // {
-            //     LivesSystem.LockLife();
-            //     LoadGame(levelID);
-            // }
-            // else
-            // {
-            //     UIAddLivesPanel.Show((lifeRecieved) =>
-            //     {
-            //         if (lifeRecieved)
-            //         {
-            //             LivesSystem.LockLife();
-            //             LoadGame(levelID);
-            //         }
-            //     });
-            // }
         }
 
         public static void LoadGame(int levelID)
         {
-            ActiveSession session = ActiveSession.Current;
-            session.SetLevelIndex(levelID);
-
-            Overlay.Show(0.3f, () =>
+            StartGameWithLife(() =>
             {
-                Unload(() =>
+                ActiveSession.Current.SetLevelIndex(levelID);
+
+                Overlay.Show(0.3f, () =>
                 {
-                    SceneManager.LoadScene(GameConsts.SCENE_GAME);
-                });
-            }, true);
+                    Unload(() =>
+                    {
+                        SceneManager.LoadScene(GameConsts.SCENE_GAME);
+                    });
+                }, true);
+            });
         }
 
         public static void LoadSpecialGame(int levelID)
         {
-            ActiveSession session = ActiveSession.Current;
-            session.SetSpecialLevelIndex(levelID);
-
-            Overlay.Show(0.3f, () =>
+            StartGameWithLife(() =>
             {
-                // Unload(() =>
-                // {z
-                SceneManager.LoadScene(GameConsts.SCENE_GAME);
-                // });
-            }, true);
+                ActiveSession.Current.SetSpecialLevelIndex(levelID);
+
+                Overlay.Show(0.3f, () =>
+                {
+                    SceneManager.LoadScene(GameConsts.SCENE_GAME);
+                }, true);
+            });
+        }
+
+        private static void StartGameWithLife(SimpleCallback startGame)
+        {
+            if (LivesSystem.Lives > 0 || LivesSystem.InfiniteMode)
+            {
+                LivesSystem.LockLife();
+                startGame.Invoke();
+
+                return;
+            }
+
+            UIAddLivesPanel.Show(lifeReceived =>
+            {
+                if (lifeReceived && (LivesSystem.Lives > 0 || LivesSystem.InfiniteMode))
+                {
+                    LivesSystem.LockLife();
+                    startGame.Invoke();
+                }
+            });
         }
 
         public static void Unload(SimpleCallback onUnloaded)

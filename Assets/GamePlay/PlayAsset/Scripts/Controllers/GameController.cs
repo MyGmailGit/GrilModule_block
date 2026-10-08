@@ -499,6 +499,8 @@ namespace Watermelon
 
         public static void OnCompleteRewardRecieved()
         {
+            LivesSystem.UnlockLife(true);
+
             Overlay.Show(0.3f, () =>
             {
                 Unload(() =>
@@ -510,6 +512,8 @@ namespace Watermelon
 
         public static void LoadMenu(SimpleCallback unloadCallback = null)
         {
+            LivesSystem.UnlockLife(true);
+
             Unload(() =>
             {
                 // levelController.ResetBallSortModule();

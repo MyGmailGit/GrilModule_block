@@ -54,10 +54,22 @@ namespace Watermelon
 
             ActiveSession activeSession = ActiveSession.Current;
 
-            int displayedLevelIndex = activeSession.DisplayLevelIndex;
-            int levelIndex = activeSession.GetLevelIndex(displayedLevelIndex);
+            // int displayedLevelIndex = activeSession.DisplayLevelIndex;
+            // int levelIndex = activeSession.GetLevelIndex(displayedLevelIndex);
 
-            LoadLevel(displayedLevelIndex, levelIndex, activeSession.FirstStart);
+            // LoadLevel(displayedLevelIndex, levelIndex, activeSession.FirstStart);
+            if (activeSession.IsPlaySpecialLevel())
+            {
+                int levelIndex = activeSession.GetSpecialLevelIndex();
+                LoadSpecialLevel(levelIndex, levelIndex);
+            }
+            else
+            {
+                int displayedLevelIndex = activeSession.DisplayLevelIndex;
+                int levelIndex = activeSession.GetLevelIndex(displayedLevelIndex);
+
+                LoadLevel(displayedLevelIndex, levelIndex, activeSession.FirstStart);
+            }
         }
 
         public void HandleGameEnd()
@@ -169,6 +181,58 @@ namespace Watermelon
         {
             MovementUpdate();
         }
+
+        public void LoadSpecialLevel(int displayedLevelIndex, int levelIndex)
+        {
+            if (IsLevelLoaded)
+                UnloadLevel();
+
+            var levelDataValue = LevelDatabase.GetSpecialLevel(levelIndex);
+            var levelData = levelDataValue.levelData;
+
+            LevelRemoteConfigData overrideData = RemoteConfigController.TryGetConfig<LevelRemoteConfigData>($"level{displayedLevelIndex + 1}");
+            if (overrideData != null)
+            {
+                if (!string.IsNullOrEmpty(overrideData.hash))
+                {
+                    levelData = levelData.DecompressLevel(overrideData.hash);
+                }
+
+                // Apply remove config override
+                if (overrideData.duration > 0)
+                {
+                    levelData.ApplyDurationOverride(overrideData.duration);
+                }
+            }
+
+            ChainManager.Init();
+            RopesManager.Init();
+
+            LevelRepresentation = new LevelRepresentation(levelData, environmentData);
+
+            LevelRepresentation.SpawnEnvironment();
+            LevelRepresentation.SpawnInteractiveObjects();
+            LevelRepresentation.SpawnBlocks();
+
+            movementManager.SetLevelRepresentation(LevelRepresentation);
+
+            RepositionCamera();
+
+            InitTimer();
+
+            IsLevelLoaded = true;
+            LevelLoaded?.Invoke();
+
+            LevelController.InvokeScenario(LevelScenario.LevelStarted);
+
+            ActiveSession activeSession = ActiveSession.Current;
+            activeSession.OnLevelStarted(levelDataValue.levelData);
+
+            SavePresets.CreateSave("SpecialLevel " + (displayedLevelIndex + 1).ToString("0000"), "Levels");
+
+            FirebaseAnalyticsModule.Instance.SendLevelEvent(displayedLevelIndex, FirebaseAnalyticsModule.EventLeveType.start);
+        }
+
 
         public void LoadLevel(int displayedLevelIndex, int levelIndex, bool firstStart)
         {

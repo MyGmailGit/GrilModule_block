@@ -120,6 +120,21 @@ namespace Watermelon
             return null;
         }
 
+        #region  special list 
+        public (LevelData levelData, int index) GetSpecialLevel(int idx)
+        {
+            // 只取第150到250关
+            int useLevelIdx = 150 + idx % 100;
+
+            if (useLevelIdx < AmountOfLevels && useLevelIdx >= 0)
+                return (levels[useLevelIdx], useLevelIdx);
+
+            int index = useLevelIdx % AmountOfLevels;
+            return (levels[index], index);
+        }
+
+        #endregion
+
         public LevelBlockEffectData GetEffectData(BlockEffectType effectType)
         {
             foreach (LevelBlockEffectData effect in effects)
