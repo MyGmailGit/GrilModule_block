@@ -1,4 +1,5 @@
-﻿using UnityEngine.EventSystems;
+﻿using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Watermelon
 {
@@ -18,10 +19,8 @@ namespace Watermelon
             {
                 if (confirmed)
                 {
-                    // LoadMenu();
                     if (GameController.is_AB_VideoIsB_Local)
                     {
-
                         if (GameController.ShouldCheckMonthlyWinStreak())
                         {
                             UIPopResetGame.Show((closeType) =>

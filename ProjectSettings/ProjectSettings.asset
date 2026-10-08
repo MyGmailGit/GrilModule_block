@@ -272,7 +272,7 @@ PlayerSettings:
   AndroidTargetDevices: 0
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: '{inproject}: android.keystore'
+  AndroidKeystoreName: '{inproject}: girlblock.keystore'
   AndroidKeyaliasName: key0
   AndroidEnableArmv9SecurityFeatures: 0
   AndroidBuildApkPerCpuArchitecture: 0
@@ -776,7 +776,7 @@ PlayerSettings:
   webGLMemoryGeometricGrowthCap: 96
   webGLPowerPreference: 2
   scriptingDefineSymbols:
-    Android: UNITY_IAP_NEW;MODULE_INPUT_SYSTEM;MODULE_TMP;MODULE_MONETIZATION;MODULE_POWERUPS;MODULE_HAPTIC;MODULE_THINKINGDATA;MODULE_ADJUST;MODULE_IAP;TEST_MODE;MODULE_ADMOB
+    Android: UNITY_IAP_NEW;MODULE_INPUT_SYSTEM;MODULE_TMP;MODULE_MONETIZATION;MODULE_POWERUPS;MODULE_HAPTIC;MODULE_THINKINGDATA;MODULE_ADJUST;MODULE_IAP;MODULE_ADMOB;RELEASE_MODE
     Standalone: MODULE_INPUT_SYSTEM;MODULE_TMP;MODULE_MONETIZATION;MODULE_POWERUPS;MODULE_HAPTIC
   additionalCompilerArguments: {}
   platformArchitecture: {}
