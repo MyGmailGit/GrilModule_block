@@ -19,6 +19,7 @@ namespace Watermelon
         private Material storedMaterial;
         private Material meshMaterial;
         private int turnsLeft;
+        private int lastCollectedFrame = -1;
 
         public override void OnCreated(GateBehavior gateBehavior)
         {
@@ -47,6 +48,9 @@ namespace Watermelon
 
         public override void OnBlockCollectedGlobal(LevelBlockBehavior levelBlockBehavior)
         {
+            if (lastCollectedFrame == Time.frameCount) return;
+
+            lastCollectedFrame = Time.frameCount;
             turnsLeft--;
 
             if (turnsLeft <= 0)

@@ -12,7 +12,12 @@ namespace Watermelon
 
         public void AddTween(Tween tweenCase)
         {
-            tweenCase.OnComplete(OnTweenCaseComplete);
+            TweenCallback onComplete = tweenCase.onComplete;
+            tweenCase.OnComplete(() =>
+            {
+                onComplete?.Invoke();
+                OnTweenCaseComplete();
+            });
 
             tweenCases.Add(tweenCase);
         }

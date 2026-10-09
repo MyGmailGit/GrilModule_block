@@ -47,7 +47,7 @@ namespace Watermelon
 
             if (linkedRopeBehavior == null)
             {
-                tweenCaseCollection.Kill();
+                tweenCaseCollection?.Kill();
 
                 Destroy(transform.gameObject);
             }
@@ -58,7 +58,7 @@ namespace Watermelon
             isLinked = true;
             linkedRopeBehavior = ropeBehavior;
 
-            tweenCaseCollection.Kill();
+            tweenCaseCollection?.Kill();
             tweenCaseCollection = new TweenCaseCollection();
 
             ropeBehavior.OnRopeLinked();
@@ -89,7 +89,7 @@ namespace Watermelon
 
         private void OnDestroy()
         {
-            tweenCaseCollection.Kill();
+            tweenCaseCollection?.Kill();
         }
     }
 }

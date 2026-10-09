@@ -30,7 +30,7 @@ namespace Watermelon
 
             if (linkedChainElement == null || linkedChainElement.ChainVisualsBehavior == null)
             {
-                tweenCaseCollection.Kill();
+                tweenCaseCollection?.Kill();
 
                 Destroy(transform.gameObject);
             }
@@ -41,7 +41,7 @@ namespace Watermelon
             isLinked = true;
             linkedChainElement = chainElement;
 
-            tweenCaseCollection.Kill();
+            tweenCaseCollection?.Kill();
             tweenCaseCollection = new TweenCaseCollection();
 
             chainElement?.OnKeyLinked();
