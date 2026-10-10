@@ -31,6 +31,9 @@ public class UIGetSpecialPic : UIPage, IPopupWindow
 
     public static void Show(Action onClose = null)
     {
+        //直接取消了，不要了 special直接送图，但是不玩关卡
+        onClose?.Invoke(); return;
+
         var specialOne = VideoSerilNumberManager.Instance.specialData.GetOneFileToUse();
         if (!shouldShowSpecialGet || specialOne == null) { onClose?.Invoke(); return; }
 
